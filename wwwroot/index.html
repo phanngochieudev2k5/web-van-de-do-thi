@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Citizen - Đô thị thông minh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/base.css">
+    <link rel="stylesheet" href="assets/home.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container nav-wrap">
+            <div class="logo">SmartCitizen</div>
+            <nav class="nav-links">
+                <a href="#" style="color: var(--primary); font-weight: 700;">Trang chủ</a>
+                <a href="#">Bản đồ số</a>
+                <a href="#">Thống kê</a>
+                <a href="#">Xếp hạng</a>
+            </nav>
+            <div style="display: flex; gap: 16px;">
+                <button class="btn btn-outline">Đăng nhập</button>
+                <button class="btn btn-primary" id="btnOpenReportHeader">Gửi phản ánh</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <h1>Chung tay xây dựng<br>Thành phố Thông minh</h1>
+                <p>Nền tảng trực tuyến giúp bạn dễ dàng báo cáo các vấn đề đô thị. Mọi phản ánh đều được minh bạch và
+                    theo dõi tiến độ xử lý theo thời gian thực.</p>
+                <div style="display: flex; gap: 16px; justify-content: center;">
+                    <a href="form.html" class="btn btn-primary" id="btnOpenReport"
+                        style="font-size: 1.15rem; padding: 16px 36px;">
+                        📸 Báo cáo ngay
+                    </a>
+                    <button class="btn btn-outline" style="font-size: 1.15rem; padding: 16px 36px; background: white;">
+                        📍 Xem bản đồ
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-container container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-num">12,450</div>
+                    <div class="stat-label">Tổng phản ánh</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num" style="color: var(--success);">11,200</div>
+                    <div class="stat-label">Đã giải quyết</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num" style="color: var(--warning);">350</div>
+                    <div class="stat-label">Đang xử lý</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num" style="color: var(--secondary);">8,900</div>
+                    <div class="stat-label">Công dân tích cực</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="categories container">
+            <h2 class="section-title">Vấn đề bạn quan tâm?</h2>
+            <p class="section-subtitle">Lọc các phản ánh theo danh mục để dễ dàng theo dõi</p>
+
+            <div class="cat-list">
+                <div class="cat-item active">🔥 Nổi bật nhất</div>
+                <div class="cat-item">🚦 Giao thông</div>
+                <div class="cat-item">🌳 Môi trường</div>
+                <div class="cat-item">💡 Chiếu sáng</div>
+                <div class="cat-item">🏗️ Hạ tầng</div>
+                <div class="cat-item">👮 An ninh trật tự</div>
+            </div>
+        </section>
+
+        <section class="reports container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 class="section-title">Phản ánh mới nhất</h2>
+                <a href="#" style="color: var(--primary); font-weight: 600;">Xem tất cả &rarr;</a>
+            </div>
+
+            <div class="report-grid">
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&q=80&w=600"
+                        alt="Rác thải" class="card-img">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <span class="badge bg-warning">Đang xử lý</span>
+                            <span style="color: var(--gray); font-size: 0.9rem;">2 giờ trước</span>
+                        </div>
+                        <h3 class="card-title">Tập kết rác thải sai quy định gây ô nhiễm</h3>
+                        <div class="card-loc">
+                            📍 Khu vực ven Hồ Goong
+                        </div>
+                        <div class="card-footer">
+                            <div class="interaction">
+                                <button class="btn-icon" onclick="toggleLike(this)">❤️ <span>128</span></button>
+                                <button class="btn-icon">💬 <span>24</span></button>
+                            </div>
+                            <a href="#" class="read-more">Chi tiết</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1579386345638-348e3d061556?auto=format&fit=crop&q=80&w=600"
+                        alt="Đường hỏng" class="card-img">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <span class="badge bg-danger">Chờ duyệt</span>
+                            <span style="color: var(--gray); font-size: 0.9rem;">5 giờ trước</span>
+                        </div>
+                        <h3 class="card-title">Hố ga sụt lún nguy hiểm cho người tham gia giao thông</h3>
+                        <div class="card-loc">
+                            📍 Gần nút giao Đại lộ V.I. Lê Nin
+                        </div>
+                        <div class="card-footer">
+                            <div class="interaction">
+                                <button class="btn-icon" onclick="toggleLike(this)">❤️ <span>356</span></button>
+                                <button class="btn-icon">💬 <span>89</span></button>
+                            </div>
+                            <a href="#" class="read-more">Chi tiết</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1502741224143-9038bc40d07e?auto=format&fit=crop&q=80&w=600"
+                        alt="Chiếu sáng" class="card-img">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <span class="badge bg-success">Đã hoàn thành</span>
+                            <span style="color: var(--gray); font-size: 0.9rem;">Hôm qua</span>
+                        </div>
+                        <h3 class="card-title">Khắc phục sự cố đèn đường hỏng hàng loạt</h3>
+                        <div class="card-loc">
+                            📍 Xung quanh Quảng trường Hồ Chí Minh
+                        </div>
+                        <div class="card-footer">
+                            <div class="interaction">
+                                <button class="btn-icon" onclick="toggleLike(this)">❤️ <span>512</span></button>
+                                <button class="btn-icon">💬 <span>45</span></button>
+                            </div>
+                            <a href="#" class="read-more">Chi tiết</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">SmartCitizen</div>
+                    <p>Nền tảng tiếp nhận và xử lý phản ánh đô thị thông minh. Chung tay xây dựng môi trường sống xanh, sạch, đẹp và an toàn.</p>
+                    <div class="social-links">
+                        <a href="#">FB</a>
+                        <a href="#">YT</a>
+                        <a href="#">ZL</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Về hệ thống</h4>
+                    <div class="footer-links">
+                        <a href="#">Giới thiệu chung</a>
+                        <a href="#">Hướng dẫn sử dụng</a>
+                        <a href="#">Quy chế hoạt động</a>
+                        <a href="#">Câu hỏi thường gặp</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Tính năng</h4>
+                    <div class="footer-links">
+                        <a href="form.html">Gửi phản ánh</a>
+                        <a href="#">Bản đồ trực tuyến</a>
+                        <a href="#">Thống kê dữ liệu</a>
+                        <a href="#">Bảng xếp hạng</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Cơ quan tiếp nhận</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <span>📍</span>
+                            <div>UBND Thành phố Vinh<br>Nghệ An, Việt Nam</div>
+                        </li>
+                        <li>
+                            <span>📞</span>
+                            <div>Hotline: 1900 1234<br>(Hỗ trợ 24/7)</div>
+                        </li>
+                        <li>
+                            <span>📧</span>
+                            <div>Email: hotro@smartcitizen.vinh.vn</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>&copy; 2026 Smart Citizen. Phát triển bởi đội ngũ dự án.</div>
+                <div class="footer-legal">
+                    <a href="#">Điều khoản bảo mật</a>
+                    <a href="#">Chính sách dữ liệu</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/main.js"></script>
+</body>
+
+</html>

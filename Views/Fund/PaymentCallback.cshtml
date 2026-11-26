@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Kết quả giao dịch VNPAY";
+}
+
+<div class="container text-center py-5" style="margin-top: 50px; font-family: 'Segoe UI', sans-serif;">
+    <div style="max-width: 500px; margin: 0 auto; padding: 40px; border-radius: 16px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; background: white;">
+
+        @if (ViewBag.Message != null && ViewBag.Message.Contains("thành công"))
+        {
+            <div style="width: 80px; height: 80px; background: #dcfce7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <span style="font-size: 3rem;">✅</span>
+            </div>
+            <h3 style="color: #10b981; font-weight: 800; margin-bottom: 10px;">Giao dịch Thành công!</h3>
+            <p style="color: #475569; font-size: 1.1rem; margin-bottom: 30px;">@ViewBag.Message</p>
+        }
+        else
+        {
+            <div style="width: 80px; height: 80px; background: #fee2e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <span style="font-size: 3rem;">❌</span>
+            </div>
+            <h3 style="color: #ef4444; font-weight: 800; margin-bottom: 10px;">Giao dịch Thất bại</h3>
+            <p style="color: #475569; font-size: 1.1rem; margin-bottom: 30px;">@(ViewBag.Message ?? "Giao dịch đã được xử lý trước đó hoặc xảy ra lỗi dữ liệu.")</p>
+        }
+
+        <a href="/Fund" style="display: inline-block; background: #2563eb; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.05rem; transition: 0.2s; box-shadow: 0 4px 6px -1px rgba(37,99,235,0.2);">
+            ← Quay về trang Gây quỹ
+        </a>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+}
+
+<div style="max-width: 400px; margin: 80px auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+    <h2 style="text-align: center; margin-bottom: 24px; font-weight: 800; color: #0f172a;">Tạo tài khoản</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div style="background: #fee2e2; color: #ef4444; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: 500;">
+            @ViewBag.Error
+        </div>
+    }
+
+    <form asp-action="Register" method="post">
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Họ và tên</label>
+            <input type="text" name="FullName" required style="width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; outline: none;" />
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Địa chỉ Email</label>
+            <input type="email" name="Email" required style="width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; outline: none;" />
+        </div>
+
+        <div style="margin-bottom: 24px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Mật khẩu</label>
+            <input type="password" name="PasswordHash" required style="width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; outline: none;" />
+        </div>
+
+        <button type="submit" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 1.05rem; cursor: pointer;">Đăng ký</button>
+    </form>
+
+    <div style="text-align: center; margin-top: 24px; color: #64748b;">
+        Đã có tài khoản? <a href="/Account/Login" style="color: #2563eb; font-weight: 600; text-decoration: none;">Đăng nhập</a>
+    </div>
+</div>

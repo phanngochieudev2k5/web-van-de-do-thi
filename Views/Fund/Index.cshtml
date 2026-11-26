@@ -1,0 +1,90 @@
+﻿@model IEnumerable<WebDoThi.Models.TblFundCampaign>
+@{
+    ViewData["Title"] = "Cộng đồng & Gây quỹ";
+}
+
+<style>
+    .campaign-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+    @@media (max-width: 992px) {
+        .campaign-grid
+
+    {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    }
+    @@media (max-width: 768px) {
+        .campaign-grid
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    }
+</style>
+
+<div class="container py-5" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div class="text-center mb-5">
+        <h1 style="font-weight: 800; color: #1e293b;">Cộng Đồng Chung Tay</h1>
+        <p style="color: #64748b; font-size: 1.1rem;">Cùng nhau xây dựng đô thị Xanh - Sạch - Hiện đại qua các chiến dịch thiết thực.</p>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 24px;">
+        <form action="/Fund" method="get" style="margin: 0;">
+            <select name="sort" onchange="this.form.submit()" style="padding: 10px 16px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; font-weight: 600; color: #334155; background-color: #f8fafc; cursor: pointer;">
+                @if (ViewBag.CurrentSort == "highest")
+                {
+                    <option value="newest">Mới nhất</option>
+                    <option value="oldest">Cũ nhất</option>
+                    <option value="highest" selected>Số tiền quyên góp lớn nhất</option>
+                }
+                else if (ViewBag.CurrentSort == "oldest")
+                {
+                    <option value="newest">Mới nhất</option>
+                    <option value="oldest" selected>Cũ nhất</option>
+                    <option value="highest">Số tiền quyên góp lớn nhất</option>
+                }
+                else
+                {
+                    <option value="newest" selected>Mới nhất</option>
+                    <option value="oldest">Cũ nhất</option>
+                    <option value="highest">Số tiền quyên góp lớn nhất</option>
+                }
+            </select>
+        </form>
+    </div>
+
+    <div class="campaign-grid">
+        @foreach (var item in Model)
+        {
+            double percent = item.TargetAmount > 0 ? (double)((item.CurrentAmount ?? 0) / item.TargetAmount) * 100 : 0;
+            if (percent > 100) percent = 100;
+
+            <div class="card h-100 shadow-sm" style="border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; transition: transform 0.2s; background: white;">
+                <div style="height: 160px; background: linear-gradient(135deg, #3b82f6, #10b981); display: flex; align-items: center; justify-content: center; color: white;">
+                    <span style="font-size: 3rem;">🤝</span>
+                </div>
+                <div class="card-body p-4" style="display: flex; flex-direction: column;">
+                    <h5 style="font-weight: 700; color: #0f172a; margin-bottom: 15px; font-size: 1.1rem; flex-grow: 1;">@item.Title</h5>
+
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;">
+                        <span style="color: #10b981;">@String.Format("{0:N0}", item.CurrentAmount) đ</span>
+                        <span style="color: #64748b;">Mục tiêu: @String.Format("{0:N0}", item.TargetAmount) đ</span>
+                    </div>
+
+                    <div style="width: 100%; background-color: #f1f5f9; border-radius: 10px; height: 8px; overflow: hidden; margin-bottom: 20px;">
+                        <div style="width: @percent.ToString("0.0").Replace(",",".")%; background-color: #10b981; height: 100%; border-radius: 10px;"></div>
+                    </div>
+
+                    <a href="/Fund/Details/@item.Id" style="display: block; text-align: center; background: #f8fafc; color: #2563eb; border: 1px solid #bfdbfe; padding: 10px; border-radius: 8px; font-weight: 700; text-decoration: none; transition: 0.2s;">
+                        Xem chi tiết & Ủng hộ
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

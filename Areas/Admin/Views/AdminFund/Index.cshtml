@@ -1,0 +1,92 @@
+﻿@model IEnumerable<WebDoThi.Models.TblFundCampaign>
+@{
+    ViewData["Title"] = "Quản lý Gây quỹ";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div style="padding: 24px; margin-top: 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 style="margin: 0; font-size: 1.6rem; font-weight: 700; color: #1e293b;">
+            💰 Quản lý Gây quỹ & Quyên góp
+        </h2>
+        <a href="/Admin/Fund/Create" style="background-color: #10b981; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2); transition: 0.2s;">
+            + Mở chiến dịch mới
+        </a>
+    </div>
+
+    <div style="display: flex; gap: 20px; margin-bottom: 24px;">
+        <div style="flex: 1; background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <div style="color: #64748b; font-size: 0.9rem; font-weight: 600;">Tổng số Chiến dịch</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: #0f172a; margin-top: 4px;">@ViewBag.TotalCampaigns</div>
+        </div>
+        <div style="flex: 1; background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; border-left: 4px solid #f59e0b; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <div style="color: #64748b; font-size: 0.9rem; font-weight: 600;">Tổng Mục tiêu Kêu gọi</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: #f59e0b; margin-top: 4px;">@String.Format("{0:N0}", ViewBag.TotalTarget) VNĐ</div>
+        </div>
+        <div style="flex: 1; background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; border-left: 4px solid #10b981; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <div style="color: #64748b; font-size: 0.9rem; font-weight: 600;">Tổng Tiền Đã Nhận</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: #10b981; margin-top: 4px;">@String.Format("{0:N0}", ViewBag.TotalRaised) VNĐ</div>
+        </div>
+    </div>
+
+    <div style="background: white; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                    <th style="padding: 16px 20px; color: #64748b; font-size: 0.9rem; text-transform: uppercase;">Chiến dịch</th>
+                    <th style="padding: 16px 20px; color: #64748b; font-size: 0.9rem; text-transform: uppercase;">Thời hạn</th>
+                    <th style="padding: 16px 20px; color: #64748b; font-size: 0.9rem; text-transform: uppercase; width: 35%;">Tiến độ quyên góp</th>
+                    <th style="padding: 16px 20px; color: #64748b; font-size: 0.9rem; text-transform: uppercase; text-align: center;">Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    double percent = 0;
+                    if (item.TargetAmount > 0)
+                    {
+                        percent = (double)((item.CurrentAmount ?? 0) / item.TargetAmount) * 100;
+                    }
+                    if (percent > 100) percent = 100;
+
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 16px 20px;">
+                            <a href="/Admin/Fund/Details/@item.Id" style="font-weight: 700; color: #2563eb; font-size: 1.05rem; text-decoration: none;">@item.Title</a>
+                            <div style="color: #64748b; font-size: 0.85rem; margin-top: 4px;">ID: #@item.Id</div>
+                        </td>
+                        <td style="padding: 16px 20px; color: #475569; font-size: 0.95rem;">
+                            Bắt đầu: @item.StartDate?.ToString("dd/MM/yyyy") <br>
+                            Kết thúc: <span style="font-weight: 600; color: #ef4444;">@item.EndDate?.ToString("dd/MM/yyyy")</span>
+                        </td>
+                        <td style="padding: 16px 20px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">
+                                <span style="color: #10b981;">@String.Format("{0:N0}", item.CurrentAmount) đ</span>
+                                <span style="color: #64748b;">Mục tiêu: @String.Format("{0:N0}", item.TargetAmount) đ</span>
+                            </div>
+                            <div style="width: 100%; background-color: #e2e8f0; border-radius: 10px; height: 10px; overflow: hidden;">
+                                <div style="width: @percent.ToString("0.0").Replace(",",".")%; background-color: #10b981; height: 100%; border-radius: 10px; transition: width 0.5s;"></div>
+                            </div>
+                            <div style="text-align: right; font-size: 0.8rem; color: #64748b; margin-top: 4px;">Đạt @percent.ToString("0.0")%</div>
+                        </td>
+                        <td style="padding: 16px 20px; text-align: center;">
+                            @if (item.Status == "ACTIVE")
+                            {
+                                <span style="background: #dcfce7; color: #16a34a; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">Đang mở</span>
+
+                                <form action="/Admin/Fund/CloseCampaign" method="post" style="margin-top: 10px;" onsubmit="return confirm('Bạn có chắc muốn đóng chiến dịch này?');">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button type="submit" style="background: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">Khóa lại</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span style="background: #f1f5f9; color: #64748b; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">Đã đóng</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

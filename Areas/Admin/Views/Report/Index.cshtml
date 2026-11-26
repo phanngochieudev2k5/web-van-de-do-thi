@@ -1,0 +1,192 @@
+﻿@model IEnumerable<WebDoThi.Models.TblReport>
+@{
+    ViewData["Title"] = "Quản lý phản ánh";
+}
+
+<style>
+    .filter-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .filter-form {
+        display: flex;
+        gap: 16px;
+        align-items: flex-end;
+    }
+
+    .form-group {
+        flex: 1;
+    }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 16px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        outline: none;
+    }
+
+    .btn-filter {
+        padding: 10px 24px;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .data-table {
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        border-collapse: collapse;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+        .data-table th {
+            background: #f8fafc;
+            padding: 16px;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 700;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table td {
+            padding: 16px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.95rem;
+            color: #0f172a;
+            vertical-align: middle;
+        }
+
+        .data-table tr:hover {
+            background: #f8fafc;
+        }
+
+    .badge {
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .bg-pending {
+        background: #fee2e2;
+        color: #ef4444;
+    }
+
+    .bg-progress {
+        background: #fef3c7;
+        color: #d97706;
+    }
+
+    .bg-resolved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .bg-rejected {
+        background: #f1f5f9;
+        color: #64748b;
+    }
+
+    .btn-action {
+        padding: 6px 12px;
+        background: #e0f2fe;
+        color: #0284c7;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+</style>
+
+<div class="filter-card">
+    <form class="filter-form" method="get" asp-action="Index">
+        <div class="form-group">
+            <label>Tìm kiếm (Mã, Tiêu đề, Người gửi)</label>
+            <input type="text" name="search" class="form-control" value="@ViewBag.Search" placeholder="Nhập từ khóa..." />
+        </div>
+        <div class="form-group">
+            <label>Trạng thái xử lý</label>
+            <select name="status" class="form-control">
+                <option value="">Tất cả trạng thái</option>
+                <option value="PENDING" selected="@(ViewBag.Status == "PENDING")">Chờ duyệt</option>
+                <option value="IN_PROGRESS" selected="@(ViewBag.Status == "IN_PROGRESS")">Đang xử lý</option>
+                <option value="RESOLVED" selected="@(ViewBag.Status == "RESOLVED")">Đã hoàn thành</option>
+                <option value="REJECTED" selected="@(ViewBag.Status == "REJECTED")">Đã từ chối</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Mức độ</label>
+            <select name="severity" class="form-control">
+                <option value="">Tất cả mức độ</option>
+                <option value="1" selected="@(ViewBag.Severity == 1)">Bình thường</option>
+                <option value="2" selected="@(ViewBag.Severity == 2)">Nghiêm trọng</option>
+                <option value="3" selected="@(ViewBag.Severity == 3)">Khẩn cấp</option>
+            </select>
+        </div>
+        <button type="submit" class="btn-filter">Lọc dữ liệu</button>
+    </form>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>MÃ</th>
+            <th>TIÊU ĐỀ BÁO CÁO</th>
+            <th>NGƯỜI GỬI</th>
+            <th>THỜI GIAN</th>
+            <th>TRẠNG THÁI</th>
+            <th>THAO TÁC</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="font-weight: 700; color: #64748b;">#@item.Id</td>
+                <td style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;">@item.Title</td>
+                <td>@item.User?.FullName</td>
+                <td>@item.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    @if (item.Status == "PENDING")
+                    {
+                        <span class="badge bg-pending">Chờ duyệt</span>
+                    }
+                    else if (item.Status == "IN_PROGRESS")
+                    {
+                        <span class="badge bg-progress">Đang xử lý</span>
+                    }
+                    else if (item.Status == "RESOLVED")
+                    {
+                        <span class="badge bg-resolved">Hoàn thành</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-rejected">Từ chối</span>
+                    }
+                </td>
+                <td>
+                    <a href="/Admin/Report/Details/@item.Id" class="btn-action">Xử lý ngay</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

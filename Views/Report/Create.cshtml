@@ -1,0 +1,713 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi phản ánh - Smart Citizen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --surface: #ffffff;
+            --bg: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: var(--bg);
+            color: var(--text-main);
+        }
+
+        .split-layout {
+            display: flex;
+            height: 100vh;
+        }
+
+        .left-pane {
+            flex: 4;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+            .back-link:hover {
+                color: white;
+                transform: translateX(-4px);
+            }
+
+        .pane-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .pane-desc {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: 0.3s;
+        }
+
+            .dot.active {
+                background: white;
+                transform: scale(1.2);
+            }
+
+        .right-pane {
+            flex: 6;
+            background: var(--surface);
+            padding: 40px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .form-step {
+            display: none;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+            .form-step.active {
+                display: block;
+            }
+
+        @@keyframes slideUp {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .step-heading {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: var(--text-main);
+        }
+
+        .grid-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .opt-card {
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            background: var(--surface);
+        }
+
+            .opt-card:hover {
+                border-color: #93c5fd;
+                background: #eff6ff;
+                transform: translateY(-2px);
+            }
+
+            .opt-card.selected {
+                border-color: var(--primary);
+                background: #eff6ff;
+                box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1);
+            }
+
+        .opt-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .opt-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .opt-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .modern-input, .modern-select, .modern-textarea {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: 0.3s;
+            background: #f8fafc;
+            outline: none;
+        }
+
+            .modern-input:focus, .modern-select:focus, .modern-textarea:focus {
+                background: white;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            }
+
+        .modern-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .severity-wrap {
+            display: flex;
+            gap: 16px;
+        }
+
+        .sev-btn {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            color: var(--text-muted);
+        }
+
+            .sev-btn.active[data-val="1"] {
+                border-color: var(--primary);
+                color: var(--primary);
+                background: #eff6ff;
+            }
+
+            .sev-btn.active[data-val="2"] {
+                border-color: #f59e0b;
+                color: #f59e0b;
+                background: #fffbeb;
+            }
+
+            .sev-btn.active[data-val="3"] {
+                border-color: #ef4444;
+                color: #ef4444;
+                background: #fef2f2;
+            }
+
+        .upload-box {
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .upload-box:hover {
+                border-color: var(--primary);
+                background: #eff6ff;
+            }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-prev {
+            background: white;
+            color: var(--text-muted);
+            border: 2px solid var(--border);
+        }
+
+            .btn-prev:hover {
+                background: var(--bg);
+                color: var(--text-main);
+            }
+
+        .btn-next {
+            background: var(--primary);
+            color: white;
+            margin-left: auto;
+        }
+
+            .btn-next:hover {
+                background: var(--primary-dark);
+                transform: translateY(-2px);
+                box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+            }
+
+        .method-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--text-muted);
+            margin: 20px 0;
+        }
+
+            .method-divider::before, .method-divider::after {
+                content: '';
+                flex: 1;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .method-divider span {
+                padding: 0 10px;
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+
+        @@media (max-width: 900px) {
+            .split-layout
+
+        {
+            flex-direction: column;
+            overflow-y: auto;
+            height: auto;
+        }
+
+        body {
+            overflow-y: auto;
+        }
+
+        .left-pane {
+            padding: 40px 20px;
+            flex: none;
+        }
+
+        .back-link {
+            top: 20px;
+            left: 20px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .right-pane {
+            padding: 40px 20px;
+            flex: none;
+        }
+
+        .grid-options {
+            grid-template-columns: 1fr;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="split-layout">
+        <div class="left-pane">
+            <a href="/" class="back-link">&larr; Trở về trang chủ</a>
+            <h1 class="pane-title" id="paneTitle">Vấn đề thuộc lĩnh vực nào?</h1>
+            <p class="pane-desc" id="paneDesc">Việc phân loại chính xác giúp hệ thống điều phối đến đúng cơ quan chức năng, rút ngắn thời gian xử lý.</p>
+            <div class="progress-dots">
+                <div class="dot active" id="dot1"></div>
+                <div class="dot" id="dot2"></div>
+                <div class="dot" id="dot3"></div>
+            </div>
+        </div>
+
+        <div class="right-pane">
+            <div class="form-container">
+                <form id="smartForm" asp-action="Create" asp-controller="Report" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Lat" id="Latitude" value="" />
+                    <input type="hidden" name="Lng" id="Longitude" value="" />
+                    <input type="hidden" name="CategoryId" id="CategoryId" value="1" />
+                    <input type="hidden" name="Severity" id="Severity" value="1" />
+
+                    <div class="form-step active" id="step1">
+                        <div class="step-heading">Chọn một danh mục</div>
+                        <div class="grid-options">
+                            <div class="opt-card selected" onclick="selectCard(this, 1)">
+                                <span class="opt-icon">🚦</span>
+                                <div class="opt-title">Giao thông & Hạ tầng</div>
+                                <div class="opt-desc">Hư hỏng đường xá, đèn tín hiệu, ùn tắc</div>
+                            </div>
+                            <div class="opt-card" onclick="selectCard(this, 2)">
+                                <span class="opt-icon">🗑️</span>
+                                <div class="opt-title">Môi trường & Rác thải</div>
+                                <div class="opt-desc">Rác thải sai quy định, ô nhiễm nguồn nước</div>
+                            </div>
+                            <div class="opt-card" onclick="selectCard(this, 3)">
+                                <span class="opt-icon">💡</span>
+                                <div class="opt-title">Chiếu sáng đô thị</div>
+                                <div class="opt-desc">Bóng đèn hỏng, chập điện chiếu sáng</div>
+                            </div>
+                            <div class="opt-card" onclick="selectCard(this, 4)">
+                                <span class="opt-icon">👮</span>
+                                <div class="opt-title">An ninh trật tự</div>
+                                <div class="opt-desc">Tiếng ồn, lấn chiếm lòng lề đường</div>
+                            </div>
+                            <div class="opt-card" onclick="selectCard(this, 5)">
+                                <span class="opt-icon">🌲</span>
+                                <div class="opt-title">Cây xanh & Công viên</div>
+                                <div class="opt-desc">Cây gãy đổ nguy hiểm, lấn chiếm đất công viên</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step2">
+                        <div class="step-heading">Xác định vị trí sự cố</div>
+
+                        <div class="input-group">
+                            <button type="button" class="modern-input" id="btnGetLocation" style="background: #e0f2fe; color: #0284c7; border: 2px dashed #0ea5e9; font-weight: 600; cursor: pointer;">
+                                1️⃣ Lấy vị trí GPS hiện tại của tôi
+                            </button>
+                        </div>
+
+                        <div class="method-divider"><span>HOẶC</span></div>
+
+                        <div class="input-group">
+                            <label class="input-label">2️⃣ Kéo thả ghim trên bản đồ</label>
+                            <div id="mapPicker" style="height: 250px; width: 100%; border-radius: 12px; border: 2px solid var(--border); z-index: 1;"></div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px; text-align: center;">Chạm và kéo biểu tượng màu xanh để chỉ định chính xác vị trí</div>
+                        </div>
+
+                        <div class="method-divider"><span>HOẶC</span></div>
+
+                        <div class="input-group">
+                            <label class="input-label">3️⃣ Nhập địa chỉ thủ công</label>
+                            <select class="modern-select" name="WardCode" required style="margin-bottom: 12px;">
+                                <option value="">Chọn Phường / Xã...</option>
+                                <optgroup label="Khối Phường">
+                                    <option value="ben_thuy">Bến Thủy</option>
+                                    <option value="cua_nam">Cửa Nam</option>
+                                    <option value="doi_cung">Đội Cung</option>
+                                    <option value="dong_vinh">Đông Vĩnh</option>
+                                    <option value="ha_huy_tap">Hà Huy Tập</option>
+                                    <option value="hong_son">Hồng Sơn</option>
+                                    <option value="hung_binh">Hưng Bình</option>
+                                    <option value="hung_dung">Hưng Dũng</option>
+                                    <option value="hung_phuc">Hưng Phúc</option>
+                                    <option value="le_loi">Lê Lợi</option>
+                                    <option value="le_mao">Lê Mao</option>
+                                    <option value="quan_bau">Quán Bàu</option>
+                                    <option value="quang_trung">Quang Trung</option>
+                                    <option value="trung_do">Trung Đô</option>
+                                    <option value="truong_thi">Trường Thi</option>
+                                    <option value="vinh_tan">Vinh Tân</option>
+                                </optgroup>
+                                <optgroup label="Khối Xã">
+                                    <option value="hung_chinh">Hưng Chính</option>
+                                    <option value="hung_dong">Hưng Đông</option>
+                                    <option value="hung_hoa">Hưng Hòa</option>
+                                    <option value="hung_loc">Hưng Lộc</option>
+                                    <option value="nghi_an">Nghi Ân</option>
+                                    <option value="nghi_duc">Nghi Đức</option>
+                                    <option value="nghi_kim">Nghi Kim</option>
+                                    <option value="nghi_lien">Nghi Liên</option>
+                                    <option value="nghi_phu">Nghi Phú</option>
+                                </optgroup>
+                            </select>
+                            <input type="text" class="modern-input" name="Address" required placeholder="VD: Số 1, Đại lộ Lê Nin">
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step3">
+                        <div class="step-heading">Cung cấp chi tiết</div>
+
+                        <div class="input-group">
+                            <label class="input-label">Số điện thoại liên hệ (Bảo mật)</label>
+                            <input type="tel" class="modern-input" name="PhoneNumber" pattern="[0-9]{10,11}" required placeholder="Ví dụ: 0912345678" autocomplete="off">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">* Cơ quan chức năng sẽ dùng số này để liên lạc xác minh khi cần thiết.</div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Mức độ nghiêm trọng</label>
+                            <div class="severity-wrap">
+                                <button type="button" class="sev-btn active" data-val="1" onclick="selectSev(this, 1)">Bình thường</button>
+                                <button type="button" class="sev-btn" data-val="2" onclick="selectSev(this, 2)">Nghiêm trọng</button>
+                                <button type="button" class="sev-btn" data-val="3" onclick="selectSev(this, 3)">Khẩn cấp</button>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Tiêu đề tóm tắt</label>
+                            <input type="text" class="modern-input" name="Title" required placeholder="VD: Sụt lún nắp hố ga gây nguy hiểm">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Mô tả cụ thể</label>
+                            <textarea class="modern-textarea" name="Description" required placeholder="Mô tả hiện trạng, thời gian phát hiện..."></textarea>
+                        </div>
+                        <div class="input-group">
+                            <div class="upload-box" id="dropZone">
+                                <span style="font-size: 2.5rem; display: block; margin-bottom: 12px;">📸</span>
+                                <div style="font-weight: 600; font-size: 1.1rem; color: var(--text-main);">Chạm để tải ảnh lên</div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted); margin-top: 8px;">Kéo thả ảnh vào đây. Tối đa 3 ảnh.</div>
+                                <input type="file" id="fileInput" name="images" accept="image/*" multiple hidden>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-prev" id="btnPrev" style="display: none;">Quay lại</button>
+                        <button type="button" class="btn btn-next" id="btnNext">Tiếp tục &rarr;</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const paneData = [
+            { title: "Vấn đề thuộc lĩnh vực nào?", desc: "Việc phân loại chính xác giúp hệ thống điều phối đến đúng cơ quan chức năng, rút ngắn thời gian xử lý." },
+            { title: "Vị trí xảy ra ở đâu?", desc: "Bạn có thể sử dụng định vị GPS, kéo thả ghim trên bản đồ, hoặc tự nhập địa chỉ thủ công." },
+            { title: "Cung cấp chi tiết & Hình ảnh", desc: "Hình ảnh rõ nét và mô tả chi tiết là bằng chứng quan trọng nhất giúp báo cáo được phê duyệt nhanh chóng." }
+        ];
+
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        let pickerMap = null;
+        let pickerMarker = null;
+
+        const btnNext = document.getElementById('btnNext');
+        const btnPrev = document.getElementById('btnPrev');
+        const paneTitle = document.getElementById('paneTitle');
+        const paneDesc = document.getElementById('paneDesc');
+
+        function selectCard(card, val) {
+            const siblings = card.parentElement.querySelectorAll('.opt-card');
+            siblings.forEach(s => s.classList.remove('selected'));
+            card.classList.add('selected');
+            document.getElementById('CategoryId').value = val;
+        }
+
+        function selectSev(btn, val) {
+            const siblings = btn.parentElement.querySelectorAll('.sev-btn');
+            siblings.forEach(s => s.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('Severity').value = val;
+        }
+
+        function initMap() {
+            if (pickerMap !== null) return;
+            pickerMap = L.map('mapPicker').setView([18.6733, 105.6813], 14);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+            }).addTo(pickerMap);
+
+            pickerMarker = L.marker([18.6733, 105.6813], { draggable: true }).addTo(pickerMap);
+
+            pickerMarker.on('dragend', function (event) {
+                var position = pickerMarker.getLatLng();
+                document.getElementById('Latitude').value = position.lat;
+                document.getElementById('Longitude').value = position.lng;
+
+                document.querySelector('select[name="WardCode"]').required = false;
+                document.querySelector('input[name="Address"]').required = false;
+            });
+        }
+
+        btnNext.addEventListener('click', () => {
+            const currentStepEl = document.getElementById(`step${currentStep}`);
+            const inputs = currentStepEl.querySelectorAll('input[required], select[required], textarea[required]');
+
+            let isValid = true;
+            for (let i = 0; i < inputs.length; i++) {
+                if (!inputs[i].checkValidity()) {
+                    inputs[i].reportValidity();
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (!isValid) return;
+
+            if (currentStep < totalSteps) {
+                currentStepEl.classList.remove('active');
+                currentStep++;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                updateUI();
+
+                if (currentStep === 2) {
+                    initMap();
+                    setTimeout(() => { pickerMap.invalidateSize(); }, 300);
+                }
+            } else {
+                btnNext.innerHTML = '⏳ Đang gửi...';
+                btnNext.style.opacity = '0.8';
+                document.getElementById('smartForm').submit();
+            }
+        });
+
+        btnPrev.addEventListener('click', () => {
+            if (currentStep > 1) {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep--;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                updateUI();
+            }
+        });
+
+        function updateUI() {
+            paneTitle.innerText = paneData[currentStep - 1].title;
+            paneDesc.innerText = paneData[currentStep - 1].desc;
+
+            for(let i = 1; i <= totalSteps; i++) {
+                const dot = document.getElementById(`dot${i}`);
+                if(i === currentStep) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            }
+
+            if(currentStep === 1) {
+                btnPrev.style.display = 'none';
+                btnNext.innerHTML = 'Tiếp tục &rarr;';
+            } else if(currentStep === totalSteps) {
+                btnPrev.style.display = 'inline-flex';
+                btnNext.innerHTML = '🚀 Gửi phản ánh';
+            } else {
+                btnPrev.style.display = 'inline-flex';
+                btnNext.innerHTML = 'Tiếp tục &rarr;';
+            }
+        }
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = '#2563eb'; });
+        dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.style.borderColor = '#cbd5e1'; });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#cbd5e1';
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                updateDropZoneText(e.dataTransfer.files);
+            }
+        });
+
+        fileInput.addEventListener('change', function() {
+            if (this.files.length) updateDropZoneText(this.files);
+        });
+
+        function updateDropZoneText(files) {
+            const textEl = dropZone.querySelector('div:nth-of-type(1)');
+            if (files.length > 0) {
+                textEl.innerText = `Đã chọn ${files.length} ảnh`;
+                textEl.style.color = '#2563eb';
+            }
+        }
+
+        document.getElementById('btnGetLocation').addEventListener('click', function() {
+            const btn = this;
+            if (navigator.geolocation) {
+                btn.innerHTML = '⏳ Đang dò tìm...';
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        var lat = position.coords.latitude;
+                        var lng = position.coords.longitude;
+
+                        document.getElementById('Latitude').value = lat;
+                        document.getElementById('Longitude').value = lng;
+
+                        btn.innerHTML = '✅ Đã lấy tọa độ GPS!';
+                        btn.style.background = '#dcfce7';
+                        btn.style.color = '#166534';
+                        btn.style.borderColor = '#22c55e';
+
+                        document.querySelector('select[name="WardCode"]').required = false;
+                        document.querySelector('input[name="Address"]').required = false;
+
+                        if(pickerMap && pickerMarker) {
+                            pickerMap.setView([lat, lng], 17);
+                            pickerMarker.setLatLng([lat, lng]);
+                        }
+                    },
+                    function(error) {
+                        alert('Vui lòng cấp quyền truy cập vị trí hoặc thử kéo thả ghim trên bản đồ.');
+                        btn.innerHTML = '1️⃣ Lấy vị trí GPS hiện tại của tôi';
+                    },
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                );
+            }
+        });
+    </script>
+</body>
+</html>

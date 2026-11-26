@@ -1,0 +1,234 @@
+﻿@{
+    ViewData["Title"] = "Tổng quan";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    .dash-header {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 24px;
+    }
+
+    .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        margin-bottom: 32px;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 24px;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-left: 6px solid #e2e8f0;
+    }
+
+        .stat-card.c-total {
+            border-color: #3b82f6;
+        }
+
+        .stat-card.c-pending {
+            border-color: #ef4444;
+        }
+
+        .stat-card.c-processing {
+            border-color: #f59e0b;
+        }
+
+        .stat-card.c-resolved {
+            border-color: #10b981;
+        }
+
+    .stat-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #64748b;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .chart-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 24px;
+        margin-bottom: 32px;
+    }
+
+    .panel-card {
+        background: white;
+        padding: 24px;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+
+    .panel-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 20px;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+
+    .heatmap-container {
+        height: 450px;
+        width: 100%;
+        border-radius: 12px;
+        z-index: 1;
+    }
+</style>
+
+<h2 class="dash-header">Trung tâm điều hành Đô thị thông minh</h2>
+
+<div class="stat-grid">
+    <div class="stat-card c-total">
+        <div class="stat-title">Tổng phản ánh</div>
+        <div class="stat-value">@ViewBag.Total</div>
+    </div>
+    <div class="stat-card c-pending">
+        <div class="stat-title">Mới nhận / Chờ duyệt</div>
+        <div class="stat-value">@ViewBag.Pending</div>
+    </div>
+    <div class="stat-card c-processing">
+        <div class="stat-title">Đang xử lý</div>
+        <div class="stat-value">@ViewBag.Processing</div>
+    </div>
+    <div class="stat-card c-resolved">
+        <div class="stat-title">Đã giải quyết</div>
+        <div class="stat-value">@ViewBag.Resolved</div>
+    </div>
+</div>
+
+<div class="chart-grid">
+    <div class="panel-card">
+        <h3 class="panel-title">Tỷ lệ theo lĩnh vực</h3>
+        <div class="chart-container">
+            <canvas id="categoryChart"></canvas>
+        </div>
+    </div>
+    <div class="panel-card">
+        <h3 class="panel-title">Phân bố sự cố theo Phường / Xã</h3>
+        <div class="chart-container">
+            <canvas id="wardChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="panel-card" style="margin-bottom: 60px;">
+    <h3 class="panel-title">Bản đồ nhiệt (Heatmap) - Điểm nóng sự cố</h3>
+    <div id="heatmap" class="heatmap-container"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+<script>
+    const wardDict = {
+        'ben_thuy': 'Bến Thủy', 'cua_nam': 'Cửa Nam', 'doi_cung': 'Đội Cung', 'dong_vinh': 'Đông Vĩnh',
+        'ha_huy_tap': 'Hà Huy Tập', 'hong_son': 'Hồng Sơn', 'hung_binh': 'Hưng Bình', 'hung_dung': 'Hưng Dũng',
+        'hung_phuc': 'Hưng Phúc', 'le_loi': 'Lê Lợi', 'le_mao': 'Lê Mao', 'quan_bau': 'Quán Bàu',
+        'quang_trung': 'Quang Trung', 'trung_do': 'Trung Đô', 'truong_thi': 'Trường Thi', 'vinh_tan': 'Vinh Tân',
+        'hung_chinh': 'Hưng Chính', 'hung_dong': 'Hưng Đông', 'hung_hoa': 'Hưng Hòa', 'hung_loc': 'Hưng Lộc',
+        'nghi_an': 'Nghi Ân', 'nghi_duc': 'Nghi Đức', 'nghi_kim': 'Nghi Kim', 'nghi_lien': 'Nghi Liên', 'nghi_phu': 'Nghi Phú'
+    };
+
+    const catData = @Html.Raw(ViewBag.CategoryStats);
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'doughnut',
+        data: {
+            labels: catData.map(x => x.Name),
+            datasets: [{
+                data: catData.map(x => x.Count),
+                backgroundColor: ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'],
+                borderWidth: 0
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    const wardData = @Html.Raw(ViewBag.WardStats);
+    wardData.sort((a, b) => b.Count - a.Count);
+
+    new Chart(document.getElementById('wardChart'), {
+        type: 'bar',
+        data: {
+            labels: wardData.map(x => wardDict[x.Ward] || x.Ward),
+            datasets: [{
+                label: 'Số lượng phản ánh',
+                data: wardData.map(x => x.Count),
+                backgroundColor: '#3b82f6',
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    const map = L.map('heatmap').setView([18.6733, 105.6813], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    const rawHeatData = @Html.Raw(ViewBag.HeatmapData);
+    const heatPoints = rawHeatData.map(item => {
+        let intensity = item.Severity === 3 ? 1.0 : (item.Severity === 2 ? 0.6 : 0.3);
+        return [item.Latitude, item.Longitude, intensity];
+    });
+
+    L.heatLayer(heatPoints, {
+        radius: 35,
+        blur: 25,
+        maxZoom: 15,
+        gradient: {0.4: 'blue', 0.6: 'cyan', 0.7: 'lime', 0.8: 'yellow', 1.0: 'red'}
+    }).addTo(map);
+
+    function getPinIcon(severity) {
+        var color = '#3b82f6';
+        if (severity == 2) color = '#f59e0b';
+        if (severity == 3) color = '#ef4444';
+
+        var svgHtml = `<svg viewBox="0 0 24 24" width="24" height="24" style="fill: ${color}; filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.5));"><path d="M12 0C7.58 0 4 3.58 4 8c0 5.25 8 16 8 16s8-10.75 8-16c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>`;
+
+        return L.divIcon({
+            className: 'custom-pin',
+            html: svgHtml,
+            iconSize: [24, 24],
+            iconAnchor: [12, 24],
+            popupAnchor: [0, -20]
+        });
+    }
+
+    rawHeatData.forEach(function(item) {
+        var marker = L.marker([item.Latitude, item.Longitude], {
+            icon: getPinIcon(item.Severity)
+        }).addTo(map);
+
+        var popupContent = `
+            <div style="width: 180px;">
+                <div style="font-weight: 800; color: #1e293b; margin-bottom: 4px;">${item.Title}</div>
+                <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 8px;">📍 ${item.Address}</div>
+                <a href="/Admin/Report/Details/${item.Id}" style="display: block; text-align: center; background: #3b82f6; color: white; padding: 6px; border-radius: 4px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Xử lý ngay</a>
+            </div>
+        `;
+        marker.bindPopup(popupContent);
+    });
+</script>

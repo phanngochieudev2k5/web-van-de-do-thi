@@ -1,0 +1,78 @@
+﻿@model WebDoThi.Models.TblFundCampaign
+@{
+    ViewData["Title"] = "Chi tiết chiến dịch";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    double percent = Model.TargetAmount > 0 ? (double)((Model.CurrentAmount ?? 0) / Model.TargetAmount) * 100 : 0;
+    if (percent > 100) percent = 100;
+}
+
+<div style="padding: 24px; margin-top: 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div style="margin-bottom: 20px;">
+        <a href="/Admin/Fund" style="color: #475569; text-decoration: none; font-weight: 600;">← Quay lại danh sách</a>
+    </div>
+
+    <div style="background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h2 style="margin: 0 0 10px 0; font-size: 1.5rem; font-weight: 700; color: #0f172a;">@Model.Title</h2>
+        <p style="color: #475569; margin-bottom: 20px;">@Model.Description</p>
+
+        <div style="display: flex; justify-content: space-between; font-size: 1rem; font-weight: 600; margin-bottom: 8px;">
+            <span style="color: #10b981;">Đã nhận: @String.Format("{0:N0}", Model.CurrentAmount) đ</span>
+            <span style="color: #64748b;">Mục tiêu: @String.Format("{0:N0}", Model.TargetAmount) đ</span>
+        </div>
+        <div style="width: 100%; background-color: #e2e8f0; border-radius: 10px; height: 16px; overflow: hidden; margin-bottom: 8px;">
+            <div style="width: @percent.ToString("0.0").Replace(",",".")%; background-color: #10b981; height: 100%; border-radius: 10px;"></div>
+        </div>
+        <div style="text-align: right; font-size: 0.9rem; color: #64748b;">Đạt @percent.ToString("0.0")%</div>
+    </div>
+
+    <div style="background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #0f172a;">Danh sách quyên góp</h3>
+
+            <form action="/Admin/Fund/Details/@Model.Id" method="get" style="margin: 0;">
+                <select name="sort" onchange="this.form.submit()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; outline: none;">
+                    @if (ViewBag.CurrentSort == "highest")
+                    {
+                        <option value="newest">Mới nhất - Cũ nhất</option>
+                        <option value="highest" selected>Số tiền lớn nhất</option>
+                    }
+                    else
+                    {
+                        <option value="newest" selected>Mới nhất - Cũ nhất</option>
+                        <option value="highest">Số tiền lớn nhất</option>
+                    }
+                </select>
+            </form>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 12px 16px; color: #64748b; font-size: 0.9rem;">Thời gian</th>
+                        <th style="padding: 12px 16px; color: #64748b; font-size: 0.9rem;">Người quyên góp</th>
+                        <th style="padding: 12px 16px; color: #64748b; font-size: 0.9rem;">Số tiền</th>
+                        <th style="padding: 12px 16px; color: #64748b; font-size: 0.9rem;">Lời nhắn</th>
+                        <th style="padding: 12px 16px; color: #64748b; font-size: 0.9rem;">Mã VNPAY</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Transactions != null)
+                    {
+                        foreach (var txn in ViewBag.Transactions)
+                        {
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 12px 16px; color: #475569; font-size: 0.95rem;">@txn.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #0f172a;">@txn.UserName</td>
+                                <td style="padding: 12px 16px; font-weight: 700; color: #10b981;">@String.Format("{0:N0}", txn.Amount) đ</td>
+                                <td style="padding: 12px 16px; color: #334155; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@txn.OrderInfo</td>
+                                <td style="padding: 12px 16px; color: #64748b; font-size: 0.85rem;">@txn.VnpayTranId</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

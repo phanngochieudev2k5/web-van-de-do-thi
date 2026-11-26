@@ -1,0 +1,189 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\WebDoThi\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|d:\\webdothi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|d:\\webdothi\\areas\\admin\\controllers\\adminfundcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|solutionrelative:areas\\admin\\controllers\\adminfundcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|d:\\webdothi\\controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|solutionrelative:controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|d:\\webdothi\\areas\\admin\\controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|solutionrelative:areas\\admin\\controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|d:\\webdothi\\views\\report\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|solutionrelative:views\\report\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|d:\\webdothi\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|d:\\webdothi\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|d:\\webdothi\\areas\\admin\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|solutionrelative:areas\\admin\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|d:\\webdothi\\areas\\admin\\views\\adminnews\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|solutionrelative:areas\\admin\\views\\adminnews\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|d:\\webdothi\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DB1CB0F-07E9-4C9A-92A8-ED1BE0CF7CC0}|WebDoThi.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AdminFundController.cs",
+              "DocumentMoniker": "D:\\WebDoThi\\Areas\\Admin\\Controllers\\AdminFundController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\AdminFundController.cs",
+              "ToolTip": "D:\\WebDoThi\\Areas\\Admin\\Controllers\\AdminFundController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\AdminFundController.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-26T02:55:13.27Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\WebDoThi\\Views\\Report\\Create.cshtml",
+              "RelativeDocumentMoniker": "Views\\Report\\Create.cshtml",
+              "ToolTip": "D:\\WebDoThi\\Views\\Report\\Create.cshtml",
+              "RelativeToolTip": "Views\\Report\\Create.cshtml",
+              "ViewState": "AgIAAGYCAAAAAAAAAAAIwKwCAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-22T01:34:25.64Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ReportController.cs",
+              "DocumentMoniker": "D:\\WebDoThi\\Areas\\Admin\\Controllers\\ReportController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ReportController.cs",
+              "ToolTip": "D:\\WebDoThi\\Areas\\Admin\\Controllers\\ReportController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\ReportController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAJcAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T01:25:05.36Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\WebDoThi\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\WebDoThi\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAACKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-22T01:24:51.906Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\WebDoThi\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\WebDoThi\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-22T00:40:26.929Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\WebDoThi\\Areas\\Admin\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\WebDoThi\\Areas\\Admin\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-22T00:40:22.699Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\WebDoThi\\Areas\\Admin\\Views\\AdminNews\\Index.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\AdminNews\\Index.cshtml",
+              "ToolTip": "D:\\WebDoThi\\Areas\\Admin\\Views\\AdminNews\\Index.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\AdminNews\\Index.cshtml",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABoAAABvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-22T00:26:50.163Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\WebDoThi\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "D:\\WebDoThi\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAlwCwAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T22:52:36.04Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\WebDoThi\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "D:\\WebDoThi\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAuwEoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T22:47:48.232Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReportController.cs",
+              "DocumentMoniker": "D:\\WebDoThi\\Controllers\\ReportController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ReportController.cs",
+              "ToolTip": "D:\\WebDoThi\\Controllers\\ReportController.cs",
+              "RelativeToolTip": "Controllers\\ReportController.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAUwCgAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T22:39:17.487Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

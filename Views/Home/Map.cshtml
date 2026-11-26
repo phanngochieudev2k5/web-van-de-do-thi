@@ -1,0 +1,179 @@
+﻿@{
+    ViewData["Title"] = "Bản đồ số đô thị";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    .map-container {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        z-index: 1;
+    }
+
+    .btn-floating-back {
+        position: absolute;
+        top: 20px;
+        left: 60px;
+        z-index: 1000;
+        background: white;
+        color: #0f172a;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 700;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.2s;
+        border: 1px solid #e2e8f0;
+    }
+
+        .btn-floating-back:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+        }
+
+    .map-legend {
+        position: absolute;
+        bottom: 30px;
+        left: 30px;
+        background: white;
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        z-index: 999;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #0f172a;
+    }
+
+        .legend-item:last-child {
+            margin-bottom: 0;
+        }
+
+    .dot-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+    }
+
+    .popup-card {
+        width: 220px;
+    }
+
+        .popup-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .popup-card h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+            color: #0f172a;
+        }
+
+        .popup-card p {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin: 0 0 12px 0;
+        }
+
+    .popup-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background: #2563eb;
+        color: white !important;
+        padding: 8px 0;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+        .popup-btn:hover {
+            background: #1d4ed8;
+        }
+</style>
+
+<div class="map-container" id="mainMap">
+    <a href="/" class="btn-floating-back">
+        <span>←</span> Trở về trang chủ
+    </a>
+
+    <div class="map-legend">
+        <div style="font-size: 1.1rem; font-weight: 800; margin-bottom: 12px;">Mức độ sự cố</div>
+        <div class="legend-item"><div class="dot-color" style="background: #3b82f6;"></div> Bình thường</div>
+        <div class="legend-item"><div class="dot-color" style="background: #f59e0b;"></div> Nghiêm trọng</div>
+        <div class="legend-item"><div class="dot-color" style="background: #ef4444;"></div> Khẩn cấp</div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    var mapData = @Html.Raw(ViewBag.MapData);
+
+    var map = L.map('mainMap', {
+        zoomControl: false
+    }).setView([18.6733, 105.6813], 14);
+
+    L.control.zoom({
+        position: 'topright'
+    }).addTo(map);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    function getPinIcon(severity, status) {
+        var color = '#3b82f6';
+        if(status == "RESOLVED")
+        {
+            color = '#70C156';
+        }
+        else
+        {
+            if (severity == 2) color = '#f59e0b';
+            if (severity == 3) color = '#ef4444';
+        }
+        
+
+        var svgHtml = `<svg viewBox="0 0 24 24" width="36" height="36" style="fill: ${color}; filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.3));"><path d="M12 0C7.58 0 4 3.58 4 8c0 5.25 8 16 8 16s8-10.75 8-16c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>`;
+
+        return L.divIcon({
+            className: 'custom-pin',
+            html: svgHtml,
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -32]
+        });
+    }
+
+    mapData.forEach(function(item) {
+        var marker = L.marker([item.Latitude, item.Longitude], { icon: getPinIcon(item.Severity, item.Status) }).addTo(map);
+
+        var popupContent = `
+            <div class="popup-card">
+                <img src="${item.ImageUrl}" alt="Ảnh sự cố">
+                <h4>${item.Title}</h4>
+                <p>📍 ${item.Address}</p>
+                <a href="/Home/Details/${item.Id}" class="popup-btn">Xem chi tiết</a>
+            </div>
+        `;
+
+        marker.bindPopup(popupContent);
+    });
+</script>

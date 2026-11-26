@@ -1,0 +1,561 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\WebDoThi\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\WebDoThi.bundle.scp.css",
+      "PackagePath": "staticwebassets\\WebDoThi.g6k21k8p4h.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\assets\\base.css",
+      "PackagePath": "staticwebassets\\assets\\base.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\assets\\home.css",
+      "PackagePath": "staticwebassets\\assets\\home.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\assets\\main.js",
+      "PackagePath": "staticwebassets\\assets\\main.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\csdl1.sql",
+      "PackagePath": "staticwebassets\\csdl1.sql"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\form.html",
+      "PackagePath": "staticwebassets\\form.html"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\leaderboard.html",
+      "PackagePath": "staticwebassets\\leaderboard.html"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery\\dist\\jquery.slim.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.min.js"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.min.map"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\news\\09a14ca8-4625-4d8a-8fee-a5851022d2f9.jpg",
+      "PackagePath": "staticwebassets\\uploads\\news\\09a14ca8-4625-4d8a-8fee-a5851022d2f9.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\03473819-cf33-4711-8098-877319e9c826.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\03473819-cf33-4711-8098-877319e9c826.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\03827545-0afc-42d6-8c61-ee3d320c5b76.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\03827545-0afc-42d6-8c61-ee3d320c5b76.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\059f9a61-378c-4d08-b6b1-1d586aa6f5c0.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\059f9a61-378c-4d08-b6b1-1d586aa6f5c0.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\18e94bad-1eb7-4325-8e89-40d8ebcdf9c0.png",
+      "PackagePath": "staticwebassets\\uploads\\reports\\18e94bad-1eb7-4325-8e89-40d8ebcdf9c0.png"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\190c5fa0-8050-4516-a358-1c8077f9b4c7.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\190c5fa0-8050-4516-a358-1c8077f9b4c7.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\1e24f281-cfda-424a-8f5f-a413d9e5ad6b.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\1e24f281-cfda-424a-8f5f-a413d9e5ad6b.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\21fddfd0-6436-4ac0-865a-4a10a704999a.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\21fddfd0-6436-4ac0-865a-4a10a704999a.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\22f83efd-7fc1-4878-8d47-bb8b7ddcd311.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\22f83efd-7fc1-4878-8d47-bb8b7ddcd311.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\2aee0314-cd15-4202-82ee-c979672b519a.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\2aee0314-cd15-4202-82ee-c979672b519a.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\2d7e940f-b4eb-4048-90f9-cdf077c8780f.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\2d7e940f-b4eb-4048-90f9-cdf077c8780f.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\3d058a4a-a603-4719-a464-2ea48f38455d.png",
+      "PackagePath": "staticwebassets\\uploads\\reports\\3d058a4a-a603-4719-a464-2ea48f38455d.png"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\4915ab43-a2e5-48c5-aaa3-c82a1b8aeb32.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\4915ab43-a2e5-48c5-aaa3-c82a1b8aeb32.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\4fcd772b-af65-4b1c-ad7f-f8e70b4e409c.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\4fcd772b-af65-4b1c-ad7f-f8e70b4e409c.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\5127d2a2-7713-4a1f-858b-283ba044490d.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\5127d2a2-7713-4a1f-858b-283ba044490d.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\623adf01-5b3d-4e9f-8b80-5fa94652bd55.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\623adf01-5b3d-4e9f-8b80-5fa94652bd55.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\63d64ed1-e990-44a9-ba55-f9fffa936cf0.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\63d64ed1-e990-44a9-ba55-f9fffa936cf0.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\664d7175-a014-49ad-b94f-680e78414439.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\664d7175-a014-49ad-b94f-680e78414439.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\6ab9c2c0-4417-4ff0-b434-ce9e0fd43031.png",
+      "PackagePath": "staticwebassets\\uploads\\reports\\6ab9c2c0-4417-4ff0-b434-ce9e0fd43031.png"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\6e7c5baf-6a2e-48b1-a44b-f16af4c07561.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\6e7c5baf-6a2e-48b1-a44b-f16af4c07561.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\746c6d85-4c15-447c-b219-accc5a498adc.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\746c6d85-4c15-447c-b219-accc5a498adc.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\76a0d3c0-a503-4466-bf21-f0e687051a47.png",
+      "PackagePath": "staticwebassets\\uploads\\reports\\76a0d3c0-a503-4466-bf21-f0e687051a47.png"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\7846a18d-daf0-4d29-9bfb-526a07ea1b95.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\7846a18d-daf0-4d29-9bfb-526a07ea1b95.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\7a296aeb-89fe-4f3e-add7-58ade01cc679.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\7a296aeb-89fe-4f3e-add7-58ade01cc679.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\7ea706ba-f41a-49b3-ab05-4df63b90d1a8.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\7ea706ba-f41a-49b3-ab05-4df63b90d1a8.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\81605d9c-49ab-49c3-8893-5176e6c501b6.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\81605d9c-49ab-49c3-8893-5176e6c501b6.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\83799cdc-696d-4afc-a029-97e373aad048.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\83799cdc-696d-4afc-a029-97e373aad048.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\8a50961b-da3c-4ad4-be76-116968fa7d40.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\8a50961b-da3c-4ad4-be76-116968fa7d40.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\8ca51a70-4aa4-466b-99ea-b316527a46d5.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\8ca51a70-4aa4-466b-99ea-b316527a46d5.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\95307544-9b15-4c59-9b43-dcdf9fcc5b93.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\95307544-9b15-4c59-9b43-dcdf9fcc5b93.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\9abba340-9f0c-44b2-a303-4d522225309a.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\9abba340-9f0c-44b2-a303-4d522225309a.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\a2296bd1-926b-4d4c-bbb2-6bd87cae62a5.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\a2296bd1-926b-4d4c-bbb2-6bd87cae62a5.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\a3149c0b-1d9c-4f3e-b499-f4e6f2a725d7.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\a3149c0b-1d9c-4f3e-b499-f4e6f2a725d7.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\a3d033ba-4a1d-4363-80b7-8a07f240e416.png",
+      "PackagePath": "staticwebassets\\uploads\\reports\\a3d033ba-4a1d-4363-80b7-8a07f240e416.png"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\af3e7a71-1c50-48a9-9415-0c321162633e.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\af3e7a71-1c50-48a9-9415-0c321162633e.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\af929684-fde5-4294-924a-544bdb8c32cf.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\af929684-fde5-4294-924a-544bdb8c32cf.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\b0afc473-77b3-4833-97dc-75fff93482aa.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\b0afc473-77b3-4833-97dc-75fff93482aa.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\bd5ab0c1-08b6-432a-8457-bf121c2ac1c3.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\bd5ab0c1-08b6-432a-8457-bf121c2ac1c3.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\bf1af52a-da57-44da-9757-a61161a71884.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\bf1af52a-da57-44da-9757-a61161a71884.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\c832cc15-784a-48a1-a50b-ae45ad4bc339.png",
+      "PackagePath": "staticwebassets\\uploads\\reports\\c832cc15-784a-48a1-a50b-ae45ad4bc339.png"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\c85f8341-3d5f-4ddf-af94-529a4909c175.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\c85f8341-3d5f-4ddf-af94-529a4909c175.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\ca418fd4-15fa-4de3-97f2-4f909388ad27.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\ca418fd4-15fa-4de3-97f2-4f909388ad27.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\d639dbe2-99c9-4064-bae2-e7ba1a43e0b6.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\d639dbe2-99c9-4064-bae2-e7ba1a43e0b6.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\d810f5a4-dd04-4ee1-a598-11e2aa085aab.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\d810f5a4-dd04-4ee1-a598-11e2aa085aab.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\db330dfa-de0c-4ca1-bb39-0b3b4111d779.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\db330dfa-de0c-4ca1-bb39-0b3b4111d779.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\e055d300-dba8-4f5f-8159-945bc8d4373e.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\e055d300-dba8-4f5f-8159-945bc8d4373e.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\e4c41d46-6b1d-49af-bcb4-0b6752cf1943.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\e4c41d46-6b1d-49af-bcb4-0b6752cf1943.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\e8f07d34-4679-47b9-8522-7d5e635608af.png",
+      "PackagePath": "staticwebassets\\uploads\\reports\\e8f07d34-4679-47b9-8522-7d5e635608af.png"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\e92cb5a6-277a-48c7-b508-f09fd7bb0abd.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\e92cb5a6-277a-48c7-b508-f09fd7bb0abd.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\eb17e8ed-e3b9-4f6c-b04c-7811519517db.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\eb17e8ed-e3b9-4f6c-b04c-7811519517db.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\eb558f04-d804-40de-8f87-5fbb55a7d40a.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\eb558f04-d804-40de-8f87-5fbb55a7d40a.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\ee8c24f8-ae47-4109-b77d-ad130bec7b10.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\ee8c24f8-ae47-4109-b77d-ad130bec7b10.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\effcfcfb-5c9e-4079-ace1-472b24c5620d.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\effcfcfb-5c9e-4079-ace1-472b24c5620d.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\f5c13ea9-69ee-4c27-b86f-e427e5b7f898.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\f5c13ea9-69ee-4c27-b86f-e427e5b7f898.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\f620a300-ed47-4ecc-944e-343c3c3c6afa.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\f620a300-ed47-4ecc-944e-343c3c3c6afa.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\fbfb4c6a-513b-4b13-9197-d91f44647d01.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\fbfb4c6a-513b-4b13-9197-d91f44647d01.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\reports\\fdbb4f7f-6191-4105-b6fc-5dd9c8df0ee3.jpg",
+      "PackagePath": "staticwebassets\\uploads\\reports\\fdbb4f7f-6191-4105-b6fc-5dd9c8df0ee3.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\resolved\\49a10880-8bb2-4007-b9db-31b67cfc7eba.png",
+      "PackagePath": "staticwebassets\\uploads\\resolved\\49a10880-8bb2-4007-b9db-31b67cfc7eba.png"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\resolved\\5c4bdebe-adac-4546-919f-333da11d0995.jpg",
+      "PackagePath": "staticwebassets\\uploads\\resolved\\5c4bdebe-adac-4546-919f-333da11d0995.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\resolved\\87dca133-7069-4ee9-84a3-5423408f5fce.jpg",
+      "PackagePath": "staticwebassets\\uploads\\resolved\\87dca133-7069-4ee9-84a3-5423408f5fce.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\resolved\\97aa8fe7-e71f-457a-8b30-b460aaf94bc3.jpg",
+      "PackagePath": "staticwebassets\\uploads\\resolved\\97aa8fe7-e71f-457a-8b30-b460aaf94bc3.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\resolved\\bf6707df-5910-4fe6-8f65-46b2a9a3ad45.jpg",
+      "PackagePath": "staticwebassets\\uploads\\resolved\\bf6707df-5910-4fe6-8f65-46b2a9a3ad45.jpg"
+    },
+    {
+      "Id": "D:\\WebDoThi\\wwwroot\\uploads\\resolved\\ce723dbe-4e0a-472b-86e5-9e0ea984bea4.png",
+      "PackagePath": "staticwebassets\\uploads\\resolved\\ce723dbe-4e0a-472b-86e5-9e0ea984bea4.png"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.WebDoThi.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.WebDoThi.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.WebDoThi.props",
+      "PackagePath": "build\\WebDoThi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.WebDoThi.props",
+      "PackagePath": "buildMultiTargeting\\WebDoThi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.WebDoThi.props",
+      "PackagePath": "buildTransitive\\WebDoThi.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

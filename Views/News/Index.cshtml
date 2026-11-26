@@ -1,0 +1,413 @@
+﻿@model IEnumerable<WebDoThi.Models.TblNews>
+@{
+    ViewData["Title"] = "Bảng tin Đô thị";
+}
+
+<style>
+    body {
+        background-color: #f0f2f5;
+    }
+
+    .feed-container {
+        max-width: 680px;
+        margin: 32px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .post-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .post-header {
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .post-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .post-author-info {
+        flex: 1;
+    }
+
+    .post-author-name {
+        font-weight: 700;
+        color: #050505;
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .post-time {
+        font-size: 0.85rem;
+        color: #65676b;
+        margin-top: 2px;
+        text-decoration: none;
+    }
+
+        .post-time:hover {
+            text-decoration: underline;
+        }
+
+    .official-badge {
+        font-size: 0.75rem;
+        background: #2563eb;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+
+    .post-body {
+        padding: 0 16px 16px 16px;
+        color: #050505;
+        font-size: 1.05rem;
+        line-height: 1.5;
+    }
+
+    .post-image {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+        cursor: pointer;
+        border-top: 1px solid #f0f2f5;
+        border-bottom: 1px solid #f0f2f5;
+    }
+
+    .post-stats {
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        color: #65676b;
+        font-size: 0.95rem;
+        border-bottom: 1px solid #ced0d4;
+        margin: 0 16px;
+    }
+
+    .post-actions {
+        display: flex;
+        padding: 4px 16px;
+        gap: 4px;
+    }
+
+    .action-btn {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 8px 0;
+        background: transparent;
+        border: none;
+        border-radius: 8px;
+        color: #65676b;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .action-btn:hover {
+            background: #f2f2f2;
+        }
+
+        .action-btn.liked {
+            color: #e41e3f;
+        }
+
+    .comment-section {
+        display: none;
+        padding: 16px;
+        background: #f9fafb;
+        border-top: 1px solid #f0f2f5;
+    }
+
+    .comment-input-wrap {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .comment-input {
+        flex: 1;
+        background: #f0f2f5;
+        border: none;
+        padding: 12px 16px;
+        border-radius: 20px;
+        outline: none;
+        font-size: 0.95rem;
+    }
+
+        .comment-input:focus {
+            background: #e4e6eb;
+        }
+
+    .mini-comment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .mini-comment-item {
+        display: flex;
+        gap: 8px;
+    }
+
+    .mini-comment-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #475569;
+        flex-shrink: 0;
+        font-size: 0.85rem;
+    }
+
+    .mini-comment-content {
+        background: #f0f2f5;
+        padding: 8px 12px;
+        border-radius: 16px;
+        display: inline-block;
+        max-width: 90%;
+    }
+
+    .mini-comment-author {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #050505;
+    }
+
+    .mini-comment-text {
+        font-size: 0.9rem;
+        color: #050505;
+        word-wrap: break-word;
+    }
+</style>
+
+<div class="container">
+    <div class="feed-container">
+
+        <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); margin-bottom: 10px;">
+            <h2 style="margin: 0; font-size: 1.5rem; color: #0f172a;">📰 Bảng tin Thành phố</h2>
+            <p style="margin: 8px 0 0 0; color: #64748b;">Cập nhật thông báo, luật lệ và tin tức mới nhất từ Cơ quan chức năng.</p>
+        </div>
+
+        @foreach (var item in Model)
+        {
+            int currentLikes = item.LikesCount ?? 0;
+            int currentComments = item.CommentsCount ?? 0;
+
+            <article class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">CQ</div>
+                    <div class="post-author-info">
+                        <div class="post-author-name">
+                            Cơ quan Quản lý Đô thị
+                            <span class="official-badge">✔ Official</span>
+                        </div>
+                        <a href="/News/Details/@item.Id" class="post-time">@item.CreatedAt?.ToString("HH:mm - dd/MM/yyyy") • 🌍 Công khai</a>
+                    </div>
+                </div>
+
+                <div class="post-body">
+                    @Html.Raw(item.Content)
+                </div>
+
+                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                {
+                    <img src="@item.ImageUrl" class="post-image" alt="Hình ảnh đính kèm" onclick="window.location.href='/News/Details/@item.Id'">
+                }
+
+                <div class="post-stats">
+                    <span>
+                        ❤️ <span id="like-count-@item.Id" data-count="@currentLikes">@currentLikes</span> người quan tâm
+                    </span>
+                    <a href="/News/Details/@item.Id" id="cmt-count-@item.Id" style="color: #65676b; text-decoration: none;">@currentComments bình luận</a>
+                </div>
+
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleLike(this, @item.Id)">
+                        <span class="icon">🤍</span> Thích
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(@item.Id)">
+                        <span>💬</span> Bình luận
+                    </button>
+                    <button class="action-btn" onclick="copyLink()">
+                        <span>🔗</span> Chia sẻ
+                    </button>
+                </div>
+
+                <div class="comment-section" id="comment-section-@item.Id">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form onsubmit="submitComment(event, @item.Id)" class="comment-input-wrap">
+                            <div class="post-avatar" style="width: 36px; height: 36px; font-size: 0.9rem; background: #e2e8f0; color: #475569;">👤</div>
+                            <input type="text" id="cmt-input-@item.Id" class="comment-input" placeholder="Viết bình luận... (Ấn Enter để gửi)" autocomplete="off">
+                        </form>
+                    }
+                    else
+                    {
+                        <div style="background: #e2e8f0; padding: 12px; border-radius: 12px; text-align: center; font-size: 0.95rem; margin-bottom: 16px;">
+                            Vui lòng <a href="/Account/Login" style="color: #2563eb; font-weight: bold; text-decoration: none;">Đăng nhập</a> để tham gia tương tác.
+                        </div>
+                    }
+
+                    <div class="mini-comment-list" id="mini-cmt-list-@item.Id">
+                    </div>
+                </div>
+            </article>
+        }
+
+    </div>
+</div>
+
+<script>
+    var isAuthenticated = '@User.Identity.IsAuthenticated.ToString().ToLower()' === 'true';
+
+    function requireLogin() {
+        if (!isAuthenticated) {
+            if (confirm('Bạn cần đăng nhập để thực hiện chức năng này. Chuyển đến trang đăng nhập?')) {
+                window.location.href = '/Account/Login?ReturnUrl=' + encodeURIComponent(window.location.pathname);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    function toggleLike(btn, id) {
+        if (!requireLogin()) return;
+
+        var isLiked = btn.classList.contains('liked');
+        var countSpan = document.getElementById('like-count-' + id);
+
+        var rawData = countSpan.getAttribute('data-count');
+        var currentCount = 0;
+
+        if (rawData && !isNaN(parseInt(rawData, 10))) {
+            currentCount = parseInt(rawData, 10);
+        }
+
+        var actionLiking = !isLiked;
+
+        var formData = new URLSearchParams();
+        formData.append('id', id);
+        formData.append('isLiking', actionLiking);
+
+        fetch('/News/ToggleLike', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData.toString()
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network error');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                if (isLiked) {
+                    btn.classList.remove('liked');
+                    btn.innerHTML = '<span class="icon">🤍</span> Thích';
+                    currentCount -= 1;
+                } else {
+                    btn.classList.add('liked');
+                    btn.innerHTML = '<span class="icon">❤️</span> Đã thích';
+                    currentCount += 1;
+                }
+
+                if (currentCount < 0) currentCount = 0;
+
+                countSpan.setAttribute('data-count', currentCount);
+                countSpan.innerText = currentCount;
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            alert('Lỗi kết nối máy chủ.');
+        });
+    }
+
+    function toggleComments(id) {
+        var section = document.getElementById('comment-section-' + id);
+        section.style.display = section.style.display === 'block' ? 'none' : 'block';
+        if(section.style.display === 'block' && isAuthenticated) {
+            document.getElementById('cmt-input-' + id).focus();
+        }
+    }
+
+    function submitComment(e, newsId) {
+        e.preventDefault();
+        var inputObj = document.getElementById('cmt-input-' + newsId);
+        var content = inputObj.value.trim();
+
+        if (content === '') return;
+
+        var formData = new URLSearchParams();
+        formData.append('newsId', newsId);
+        formData.append('content', content);
+
+        fetch('/News/AddComment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData.toString()
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network error');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                inputObj.value = '';
+
+                document.getElementById('cmt-count-' + newsId).innerText = data.newCount + ' bình luận';
+
+                var firstLetter = data.userName.charAt(0).toUpperCase();
+                var newHtml = `
+                    <div class="mini-comment-item">
+                        <div class="mini-comment-avatar">${firstLetter}</div>
+                        <div class="mini-comment-content">
+                            <div class="mini-comment-author">${data.userName}</div>
+                            <div class="mini-comment-text">${data.content}</div>
+                        </div>
+                    </div>
+                `;
+
+                var listObj = document.getElementById('mini-cmt-list-' + newsId);
+                listObj.insertAdjacentHTML('afterbegin', newHtml);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(err => {
+             console.error('Error:', err);
+             alert('Lỗi kết nối máy chủ khi gửi bình luận.');
+        });
+    }
+
+    function copyLink() {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Đã sao chép liên kết bài đăng!');
+    }
+</script>

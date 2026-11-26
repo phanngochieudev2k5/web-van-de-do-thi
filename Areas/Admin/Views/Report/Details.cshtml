@@ -1,0 +1,922 @@
+﻿@model WebDoThi.Models.TblReport
+@{
+    ViewData["Title"] = "Xử lý phản ánh #" + Model.Id;
+
+    string latStr = Model.Latitude?.ToString()?.Replace(",", ".") ?? "0";
+    string lngStr = Model.Longitude?.ToString()?.Replace(",", ".") ?? "0";
+    string googleMapsUrl = "";
+
+    if (Model.Latitude.HasValue && Model.Longitude.HasValue && Model.Latitude != 0 && Model.Longitude != 0)
+    {
+        googleMapsUrl = $"https://maps.google.com/?q={latStr},{lngStr}";
+    }
+    else
+    {
+        string fullAddress = $"{Model.Address}, {Model.WardCode}, Thành phố Vinh, Nghệ An";
+        googleMapsUrl = $"https://maps.google.com/?q={Uri.EscapeDataString(fullAddress)}";
+    }
+
+    string statusText = Model.Status == "PENDING" ? "CHỜ DUYỆT" : Model.Status == "IN_PROGRESS" ? "ĐANG XỬ LÝ" : Model.Status == "RESOLVED" ? "ĐÃ HOÀN THÀNH" : "TỪ CHỐI";
+    string statusClass = Model.Status == "PENDING" ? "status-pending" : Model.Status == "IN_PROGRESS" ? "status-progress" : Model.Status == "RESOLVED" ? "status-resolved" : "status-rejected";
+
+    string severityText = Model.Severity == 1 ? "BÌNH THƯỜNG" : Model.Severity == 2 ? "NGHIÊM TRỌNG" : "KHẨN CẤP";
+    string severityClass = Model.Severity == 1 ? "severity-1" : Model.Severity == 2 ? "severity-2" : "severity-3";
+}
+
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: 2fr 1.2fr;
+        gap: 24px;
+        align-items: start;
+    }
+
+    .card {
+        background: white;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        margin-bottom: 24px;
+    }
+
+    .report-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 16px;
+        color: #0f172a;
+        text-transform: uppercase;
+        line-height: 1.4;
+    }
+
+    .report-meta {
+        font-size: 1.1rem;
+        color: #475569;
+        margin-bottom: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .report-desc {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: #1e293b;
+        margin-bottom: 32px;
+        font-weight: 500;
+    }
+
+    .image-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+    }
+
+    .report-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+        cursor: zoom-in;
+        transition: 0.2s;
+    }
+
+        .report-img:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+    .btn-maps {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        background: #10b981;
+        color: white;
+        padding: 16px 20px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 1rem;
+        text-decoration: none;
+        margin-bottom: 16px;
+        transition: 0.2s;
+    }
+
+        .btn-maps:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(16,185,129,0.2);
+        }
+
+    .info-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px dashed #cbd5e1;
+    }
+
+        .info-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+    .info-label {
+        color: #475569;
+        font-weight: 500;
+        font-size: 1.05rem;
+    }
+
+    .info-value {
+        color: #0f172a;
+        font-weight: 700;
+        font-size: 1.05rem;
+        text-align: right;
+    }
+
+    .badge-status {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+
+    .status-pending {
+        background: #fee2e2;
+        color: #ef4444;
+    }
+
+    .status-progress {
+        background: #fef3c7;
+        color: #d97706;
+    }
+
+    .status-resolved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-rejected {
+        background: #f1f5f9;
+        color: #64748b;
+    }
+
+    .severity-1 {
+        color: #3b82f6;
+    }
+
+    .severity-2 {
+        color: #d97706;
+    }
+
+    .severity-3 {
+        color: #ef4444;
+    }
+
+    .status-form {
+        background: #f8fafc;
+        padding: 24px;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .status-select {
+        width: 100%;
+        padding: 14px;
+        border-radius: 8px;
+        border: 1px solid #cbd5e1;
+        font-weight: 600;
+        font-size: 1.05rem;
+        margin-bottom: 16px;
+        outline: none;
+    }
+
+    .reject-box, .resolved-box {
+        display: none;
+        margin-bottom: 16px;
+    }
+
+    .reject-input {
+        width: 100%;
+        padding: 14px;
+        border-radius: 8px;
+        border: 1px solid #ef4444;
+        outline: none;
+        font-size: 1rem;
+    }
+
+    .resolved-input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #10b981;
+        outline: none;
+        font-size: 1rem;
+        background: white;
+    }
+
+    .btn-update {
+        width: 100%;
+        padding: 14px;
+        background: #0f172a;
+        color: white;
+        font-weight: 700;
+        font-size: 1.05rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .btn-update:hover {
+            background: #1e293b;
+        }
+
+    .comment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-height: 600px;
+        overflow-y: auto;
+        padding-right: 8px;
+    }
+
+    .cmt-item {
+        display: flex;
+        gap: 16px;
+    }
+
+    .cmt-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .cmt-bubble {
+        background: #f1f5f9;
+        padding: 16px 20px;
+        border-radius: 4px 16px 16px 16px;
+        flex: 1;
+        font-size: 1.05rem;
+    }
+
+    .cmt-official .cmt-avatar {
+        background: #2563eb;
+        color: white;
+    }
+
+    .cmt-official .cmt-bubble {
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+    }
+
+    .official-badge {
+        font-size: 0.8rem;
+        background: #2563eb;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 6px;
+        margin-left: 8px;
+    }
+
+    .cmt-form {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .cmt-input {
+        flex: 1;
+        padding: 14px 20px;
+        border: 2px solid #cbd5e1;
+        border-radius: 24px;
+        outline: none;
+        font-size: 1.05rem;
+    }
+
+    .cmt-btn {
+        padding: 0 28px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 24px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        cursor: pointer;
+    }
+
+    .image-viewer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15,23,42,0.95);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .viewer-controls {
+        position: absolute;
+        top: 24px;
+        display: flex;
+        gap: 12px;
+        z-index: 10000;
+    }
+
+        .viewer-controls button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: #0f172a;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+            .viewer-controls button:hover {
+                background: #e2e8f0;
+            }
+
+            .viewer-controls button.btn-close {
+                background: #ef4444;
+                color: white;
+            }
+
+                .viewer-controls button.btn-close:hover {
+                    background: #dc2626;
+                }
+
+    #viewerImg {
+        max-width: 90%;
+        max-height: 85vh;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: grab;
+        border-radius: 8px;
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+
+    #aiChatContainer {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    #aiChatBtn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        color: white;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+        font-size: 28px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        #aiChatBtn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.5);
+        }
+
+    #aiChatBox {
+        width: 420px;
+        height: 600px;
+        background: white;
+        border-radius: 20px;
+        display: none;
+        flex-direction: column;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        margin-bottom: 20px;
+        transform-origin: bottom right;
+        animation: chatPopUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @@keyframes chatPopUp {
+        0%
+
+    {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    }
+
+    .chat-header {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        color: white;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .chat-header-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .chat-header-icon {
+        font-size: 28px;
+        background: rgba(255,255,255,0.1);
+        padding: 8px;
+        border-radius: 12px;
+    }
+
+    .chat-header-text h4 {
+        margin: 0 0 4px 0;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .chat-header-text span {
+        font-size: 0.85rem;
+        color: #94a3b8;
+    }
+
+    .chat-body {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        background: #f8fafc;
+    }
+
+    .msg {
+        max-width: 85%;
+        padding: 14px 18px;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        word-wrap: break-word;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+        .msg.bot {
+            background: white;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            align-self: flex-start;
+            border-radius: 4px 16px 16px 16px;
+        }
+
+        .msg.user {
+            background: #2563eb;
+            color: white;
+            align-self: flex-end;
+            border-radius: 16px 16px 4px 16px;
+        }
+
+    .quick-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .quick-btn {
+        background: white;
+        border: 1px solid #cbd5e1;
+        color: #3b82f6;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .quick-btn:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+        }
+
+    .chat-footer {
+        padding: 16px;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        gap: 12px;
+        background: white;
+    }
+
+    #aiInput {
+        flex: 1;
+        border: 1px solid #cbd5e1;
+        padding: 12px 16px;
+        border-radius: 24px;
+        outline: none;
+        font-size: 0.95rem;
+        transition: 0.2s;
+    }
+
+        #aiInput:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+    #aiSendBtn {
+        background: #2563eb;
+        color: white;
+        border: none;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+    }
+
+        #aiSendBtn:hover {
+            background: #1d4ed8;
+            transform: scale(1.05);
+        }
+
+    .typing {
+        display: none;
+        align-self: flex-start;
+        background: white;
+        border: 1px solid #e2e8f0;
+        padding: 12px 16px;
+        border-radius: 4px 16px 16px 16px;
+    }
+
+    .dot-typing {
+        display: flex;
+        gap: 4px;
+    }
+
+        .dot-typing span {
+            width: 6px;
+            height: 6px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+            .dot-typing span:nth-child(1) {
+                animation-delay: -0.32s;
+            }
+
+            .dot-typing span:nth-child(2) {
+                animation-delay: -0.16s;
+            }
+
+    @@keyframes bounce {
+        0%, 80%, 100%
+
+    {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+
+    }
+</style>
+
+<div style="margin-bottom: 24px;">
+    <a href="/Admin/Report" style="text-decoration: none; color: #64748b; font-weight: 700; font-size: 1.1rem;">← Quay lại danh sách</a>
+</div>
+
+<div class="grid-container">
+    <div>
+        <div class="card">
+            <h2 class="report-title">@Model.Title</h2>
+
+            <div class="report-meta">
+                <div><span style="font-size: 1.2rem;">📍</span> <span style="font-weight: 600;">Địa chỉ:</span> @Model.Address, @Model.WardCode</div>
+                <div><span style="font-size: 1.2rem;">👤</span> <span style="font-weight: 600;">Người gửi:</span> @Model.User?.FullName</div>
+                <div><span style="font-size: 1.2rem;">🕒</span> <span style="font-weight: 600;">Thời gian:</span> @Model.CreatedAt?.ToString("HH:mm - dd/MM/yyyy")</div>
+            </div>
+
+            <div class="report-desc">
+                <span style="font-weight: 700;">Mô tả chi tiết:</span><br />
+                @Model.Description
+            </div>
+
+            @if (Model.TblReportImages != null && Model.TblReportImages.Count > 0)
+            {
+                <div class="image-grid">
+                    @foreach (var img in Model.TblReportImages)
+                    {
+                        <img src="@img.ImageUrl" class="report-img" onclick="openViewer(this.src)" />
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="card">
+            <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 24px; color: #0f172a;">Trao đổi & Phản hồi</h3>
+            <div class="comment-list">
+                @foreach (var c in Model.TblComments.OrderBy(x => x.CreatedAt))
+                {
+                    bool isAdmin = c.User.RoleId == 1;
+                    <div class="cmt-item @(isAdmin ? "cmt-official" : "")">
+                        <div class="cmt-avatar">@c.User.FullName.Substring(0, 1).ToUpper()</div>
+                        <div class="cmt-bubble">
+                            <div style="font-weight: 800; margin-bottom: 8px; font-size: 1.05rem;">
+                                @(isAdmin ? "Cơ quan chức năng" : c.User.FullName)
+                                @if (isAdmin)
+                                {
+                                    <span class="official-badge">✔ Official</span>
+                                }
+                                <span style="font-weight: 500; color: #94a3b8; font-size: 0.9rem; margin-left: 12px;">@c.CreatedAt?.ToString("HH:mm dd/MM")</span>
+                            </div>
+                            <div style="color: #1e293b; line-height: 1.6;">
+                                @if (c.Content.Contains("[IMG]") && c.Content.Contains("[/IMG]"))
+                                {
+                                    int start = c.Content.IndexOf("[IMG]") + 5;
+                                    int end = c.Content.IndexOf("[/IMG]");
+                                    string imgUrl = c.Content.Substring(start, end - start);
+                                    string textBefore = c.Content.Substring(0, c.Content.IndexOf("[IMG]"));
+
+                                    <span>@textBefore</span>
+                                    <div style="margin-top: 12px;">
+                                        <img src="@imgUrl" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid #10b981; cursor: zoom-in; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);" onclick="openViewer(this.src)" alt="Minh chứng xử lý" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    @c.Content
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <form class="cmt-form" action="/Admin/Report/AddOfficialComment" method="post">
+                <input type="hidden" name="reportId" value="@Model.Id" />
+                <input type="text" name="content" class="cmt-input" placeholder="Viết phản hồi chính thức tới người dân..." required autocomplete="off" />
+                <button type="submit" class="cmt-btn">Gửi phản hồi</button>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <div class="card" style="padding: 24px;">
+            <a href="@googleMapsUrl" target="_blank" class="btn-maps">
+                <span style="font-size: 1.4rem;">🗺️</span>
+                <span style="flex: 1; text-align: center;">XEM ĐƯỜNG ĐI TRÊN BẢN ĐỒ<br />GOOGLE MAPS</span>
+                <span style="font-size: 1.2rem;">↗</span>
+            </a>
+
+            <div class="info-list">
+                <div class="info-row">
+                    <span class="info-label">Trạng thái</span>
+                    <span class="info-value"><span class="badge-status @statusClass">@statusText</span></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Mức độ</span>
+                    <span class="info-value @severityClass">@severityText</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Ngày gửi</span>
+                    <span class="info-value">@Model.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Danh mục</span>
+                    <span class="info-value">@(Model.Category?.Name ?? "Chưa phân loại")</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Người báo cáo</span>
+                    <span class="info-value">@Model.User?.FullName</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Liên hệ</span>
+                    <span class="info-value">
+                        @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                        {
+                            <a href="tel:@Model.PhoneNumber" style="color: #2563eb; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: #eff6ff; padding: 4px 12px; border-radius: 20px; transition: 0.2s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
+                                📞 @Model.PhoneNumber
+                            </a>
+                        }
+                        else
+                        {
+                            <span style="color: #94a3b8; font-style: italic;">Không cung cấp</span>
+                        }
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="padding: 24px;">
+            <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; color: #0f172a;">Bảng điều khiển trạng thái</h3>
+
+            <form class="status-form" action="/Admin/Report/UpdateStatus" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="@Model.Id" />
+
+                <select name="status" class="status-select" id="statusSelector" onchange="toggleDynamicBoxes()">
+                    <option value="PENDING" selected="@(Model.Status == "PENDING")">🔴 Chờ duyệt (Mới)</option>
+                    <option value="IN_PROGRESS" selected="@(Model.Status == "IN_PROGRESS")">🟡 Đang xử lý</option>
+                    <option value="RESOLVED" selected="@(Model.Status == "RESOLVED")">🟢 Đã hoàn thành</option>
+                    <option value="REJECTED" selected="@(Model.Status == "REJECTED")">⚫ Từ chối / Hủy bỏ</option>
+                </select>
+
+                <div class="reject-box" id="rejectBox">
+                    <label style="display: block; font-weight: 700; margin-bottom: 8px; color: #ef4444;">Lý do từ chối:</label>
+                    <input type="text" name="rejectReason" class="reject-input" placeholder="Nhập lý do từ chối báo cáo này..." autocomplete="off" />
+                </div>
+
+                <div class="resolved-box" id="resolvedBox">
+                    <label style="display: block; font-weight: 700; margin-bottom: 8px; color: #10b981;">Đính kèm ảnh kết quả (Minh chứng):</label>
+                    <input type="file" name="resolvedImage" accept="image/*" class="resolved-input" />
+                </div>
+
+                <button type="submit" class="btn-update">Cập nhật hệ thống</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="imageViewer" class="image-viewer" style="display:none;">
+    <div class="viewer-controls">
+        <button onclick="zoomImg(0.25)">➕ Phóng to</button>
+        <button onclick="zoomImg(-0.25)">➖ Thu nhỏ</button>
+        <button onclick="resetZoom()">🔄 Mặc định</button>
+        <button onclick="closeViewer()" class="btn-close">❌ Đóng</button>
+    </div>
+    <img id="viewerImg" src="" />
+</div>
+
+<div id="aiChatContainer">
+    <div id="aiChatBox">
+        <div class="chat-header">
+            <div class="chat-header-title">
+                <span class="chat-header-icon">🧠</span>
+                <div class="chat-header-text">
+                    <h4>SmartCitizen AI</h4>
+                    <span>Trợ lý nghiệp vụ thông minh</span>
+                </div>
+            </div>
+            <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer; font-size: 20px; transition: 0.2s;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='white'">✖</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="msg bot">
+                Xin chào đồng chí! 👋<br>
+                Tôi đã phân tích sẵn báo cáo <b>#@Model.Id</b> trên hệ thống.<br><br>
+                Đồng chí cần hỗ trợ gì? Hãy chọn một chức năng dưới đây hoặc nhập yêu cầu trực tiếp.
+                <div class="quick-actions">
+                    <button class="quick-btn" onclick="setAndSend('Hãy tóm tắt ngắn gọn báo cáo này cho tôi.')">📝 Tóm tắt sự cố</button>
+                    <button class="quick-btn" onclick="setAndSend('Soạn giúp tôi câu trả lời chuyên nghiệp gửi cho người dân.')">✉️ Soạn phản hồi</button>
+                    <button class="quick-btn" onclick="setAndSend('Phân tích mức độ nghiêm trọng của sự cố này.')">⚠️ Đánh giá mức độ</button>
+                    <button class="quick-btn" onclick="setAndSend('Quy định và thời gian xử lý tiêu chuẩn cho loại sự cố này là gì?')">⚖️ Tra cứu luật</button>
+                </div>
+            </div>
+            <div class="typing" id="typingIndicator">
+                <div class="dot-typing"><span></span><span></span><span></span></div>
+            </div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="aiInput" placeholder="Nhập yêu cầu tại đây..." autocomplete="off">
+            <button id="aiSendBtn">➤</button>
+        </div>
+    </div>
+    <button id="aiChatBtn" onclick="toggleChat()">🤖</button>
+</div>
+
+<script>
+    function toggleDynamicBoxes() {
+        var selector = document.getElementById("statusSelector");
+        var rejectBox = document.getElementById("rejectBox");
+        var resolvedBox = document.getElementById("resolvedBox");
+
+        rejectBox.style.display = "none";
+        rejectBox.querySelector('input').required = false;
+        resolvedBox.style.display = "none";
+
+        if (selector.value === "REJECTED") {
+            rejectBox.style.display = "block";
+            rejectBox.querySelector('input').required = true;
+        } else if (selector.value === "RESOLVED") {
+            resolvedBox.style.display = "block";
+        }
+    }
+    toggleDynamicBoxes();
+
+    let currentScale = 1;
+    function openViewer(src) {
+        document.getElementById('viewerImg').src = src;
+        document.getElementById('imageViewer').style.display = 'flex';
+        resetZoom();
+    }
+    function closeViewer() {
+        document.getElementById('imageViewer').style.display = 'none';
+    }
+    function zoomImg(step) {
+        currentScale += step;
+        if (currentScale < 0.5) currentScale = 0.5;
+        if (currentScale > 4) currentScale = 4;
+        document.getElementById('viewerImg').style.transform = `scale(${currentScale})`;
+    }
+    function resetZoom() {
+        currentScale = 1;
+        document.getElementById('viewerImg').style.transform = `scale(${currentScale})`;
+    }
+
+    function toggleChat() {
+        const box = document.getElementById('aiChatBox');
+        const btn = document.getElementById('aiChatBtn');
+
+        if (box.style.display === 'flex') {
+            box.style.display = 'none';
+            btn.innerHTML = '🤖';
+        } else {
+            box.style.display = 'flex';
+            btn.innerHTML = '✖';
+            document.getElementById('aiInput').focus();
+        }
+    }
+
+    function setAndSend(text) {
+        document.getElementById('aiInput').value = text;
+        sendAIMessage();
+    }
+
+    document.getElementById('aiSendBtn').addEventListener('click', sendAIMessage);
+    document.getElementById('aiInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendAIMessage();
+    });
+
+    async function sendAIMessage() {
+        const input = document.getElementById('aiInput');
+        const chatBody = document.getElementById('chatBody');
+        const typing = document.getElementById('typingIndicator');
+        const message = input.value.trim();
+
+        if (!message) return;
+
+        appendAIMessage(message, 'user');
+        input.value = '';
+
+        typing.style.display = 'block';
+        chatBody.scrollTop = chatBody.scrollHeight;
+
+        try {
+            const response = await fetch('/Admin/Report/AskAdminAI', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    message: message,
+                    reportId: '@Model.Id'
+                })
+            });
+
+            const data = await response.json();
+            appendAIMessage(data.reply, 'bot');
+        } catch (error) {
+            appendAIMessage("Lỗi kết nối máy chủ AI.", 'bot');
+        } finally {
+            typing.style.display = 'none';
+        }
+    }
+
+    function appendAIMessage(text, sender) {
+        const chatBody = document.getElementById('chatBody');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `msg ${sender}`;
+
+        let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        formattedText = formattedText.replace(/\n/g, '<br>');
+
+        msgDiv.innerHTML = formattedText;
+        chatBody.insertBefore(msgDiv, document.getElementById('typingIndicator'));
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+</script>

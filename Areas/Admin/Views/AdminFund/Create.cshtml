@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Mở Chiến dịch mới";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div style="padding: 24px; margin-top: 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+    <div style="max-width: 800px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 style="margin: 0; font-size: 1.6rem; font-weight: 700; color: #1e293b;">
+            📢 Khởi tạo đợt quyên góp mới
+        </h2>
+        <a href="/Admin/Fund" style="background-color: #f8fafc; color: #475569; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; border: 1px solid #cbd5e1;">
+            ← Quay lại
+        </a>
+    </div>
+
+    <div style="max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+
+        <form action="/Admin/Fund/Create" method="post">
+
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; font-weight: 600; color: #0f172a; margin-bottom: 8px;">Tên chiến dịch / Lời kêu gọi <span style="color: red;">*</span></label>
+                <input type="text" name="Title" required placeholder="Ví dụ: Lắp camera an ninh đầu ngõ 12..."
+                       style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; box-sizing: border-box;" />
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; font-weight: 600; color: #0f172a; margin-bottom: 8px;">Số tiền mục tiêu (VNĐ) <span style="color: red;">*</span></label>
+                <input type="number" name="TargetAmount" required min="10000" placeholder="Ví dụ: 50000000"
+                       style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; box-sizing: border-box;" />
+            </div>
+
+            <div style="display: flex; gap: 20px; margin-bottom: 24px;">
+                <div style="flex: 1;">
+                    <label style="display: block; font-weight: 600; color: #0f172a; margin-bottom: 8px;">Ngày bắt đầu</label>
+                    <input type="date" name="StartDate" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;" />
+                </div>
+                <div style="flex: 1;">
+                    <label style="display: block; font-weight: 600; color: #0f172a; margin-bottom: 8px;">Ngày kết thúc</label>
+                    <input type="date" name="EndDate" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;" />
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; font-weight: 600; color: #0f172a; margin-bottom: 8px;">Mô tả chi tiết mục đích sử dụng</label>
+                <textarea name="Description" rows="5" placeholder="Nêu rõ lý do cần kêu gọi, đối tượng thụ hưởng..."
+                          style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; box-sizing: border-box; resize: vertical;"></textarea>
+            </div>
+
+            <div style="text-align: right; margin-top: 32px;">
+                <button type="submit" style="background: #10b981; color: white; padding: 14px 32px; font-size: 1.05rem; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);">
+                    ✅ Phát động chiến dịch
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>

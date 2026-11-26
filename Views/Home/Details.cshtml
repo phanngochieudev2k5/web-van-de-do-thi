@@ -1,0 +1,732 @@
+﻿@model WebDoThi.Models.ReportDetailViewModel
+@{
+    ViewData["Title"] = "Chi tiết phản ánh";
+
+    string latStr = Model.Latitude?.ToString()?.Replace(",", ".") ?? "0";
+    string lngStr = Model.Longitude?.ToString()?.Replace(",", ".") ?? "0";
+    string googleMapsUrl = "";
+
+    if (Model.Latitude.HasValue && Model.Longitude.HasValue && Model.Latitude != 0 && Model.Longitude != 0)
+    {
+        googleMapsUrl = $"https://www.google.com/maps/dir/?api=1&destination={latStr},{lngStr}";
+    }
+    else
+    {
+        string fullAddress = $"{Model.Address}, {Model.WardName}, Thành phố Vinh, Nghệ An";
+        googleMapsUrl = $"https://www.google.com/maps/dir/?api=1&destination={Uri.EscapeDataString(fullAddress)}";
+    }
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    body {
+        background: #f8fafc;
+    }
+
+    .page-wrapper {
+        padding: 32px 0 80px 0;
+    }
+
+    .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #475569;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 8px 16px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        transition: 0.2s;
+    }
+
+        .btn-back:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+    .action-group {
+        display: flex;
+        gap: 12px;
+    }
+
+    .btn-action {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: none;
+        cursor: pointer;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+    }
+
+    .btn-edit {
+        background: #e0f2fe;
+        color: #0284c7;
+    }
+
+        .btn-edit:hover {
+            background: #bae6fd;
+        }
+
+    .btn-delete {
+        background: #fee2e2;
+        color: #ef4444;
+    }
+
+        .btn-delete:hover {
+            background: #fecaca;
+        }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+
+    .main-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        padding: 32px;
+    }
+
+    .report-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 16px;
+        line-height: 1.4;
+        text-transform: uppercase;
+    }
+
+    .report-meta {
+        font-size: 1.1rem;
+        color: #475569;
+        margin-bottom: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .meta-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .tag {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .tag-status-resolved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .tag-status-progress {
+        background: #fef3c7;
+        color: #b45309;
+    }
+
+    .tag-status-pending {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .tag-status-rejected {
+        background: #f1f5f9;
+        color: #64748b;
+    }
+
+    .tag-severity-1 {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #e2e8f0;
+    }
+
+    .tag-severity-2 {
+        background: #fffbeb;
+        color: #d97706;
+        border: 1px solid #fde68a;
+    }
+
+    .tag-severity-3 {
+        background: #fef2f2;
+        color: #ef4444;
+        border: 1px solid #fecaca;
+    }
+
+    .tag-info {
+        background: #f8fafc;
+        color: #475569;
+        border: 1px solid #e2e8f0;
+    }
+
+    .report-desc {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: #1e293b;
+        margin-bottom: 32px;
+        font-weight: 500;
+    }
+
+    .img-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
+        .img-gallery img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+            cursor: zoom-in;
+            transition: 0.2s;
+            border: 2px solid #e2e8f0;
+        }
+
+            .img-gallery img:hover {
+                transform: translateY(-2px);
+                border-color: #3b82f6;
+            }
+
+    .interaction-box {
+        display: flex;
+        gap: 16px;
+        background: #f8fafc;
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .btn-interact {
+        flex: 1;
+        padding: 14px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: 0.2s;
+    }
+
+    .btn-like {
+        background: white;
+        color: #ef4444;
+        border: 2px solid #fca5a5;
+    }
+
+        .btn-like:hover {
+            background: #fef2f2;
+        }
+
+    .btn-share {
+        background: white;
+        color: #475569;
+        border: 2px solid #cbd5e1;
+    }
+
+        .btn-share:hover {
+            background: #f1f5f9;
+        }
+
+    .sidebar-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        overflow: hidden;
+        position: sticky;
+        top: 24px;
+    }
+
+    .minimap-container {
+        height: 250px;
+        width: 100%;
+        background: #e2e8f0;
+        z-index: 1;
+    }
+
+    .location-info {
+        padding: 24px;
+    }
+
+    .loc-address {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .loc-ward {
+        font-size: 1rem;
+        color: #64748b;
+        margin-bottom: 20px;
+        padding-left: 32px;
+    }
+
+    .btn-route {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        background: #10b981;
+        color: white;
+        padding: 16px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        text-decoration: none;
+        transition: 0.2s;
+        text-transform: uppercase;
+    }
+
+        .btn-route:hover {
+            background: #059669;
+        }
+
+    .comments-wrapper {
+        margin-top: 24px;
+    }
+
+    .comment-heading {
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin-bottom: 24px;
+        color: #0f172a;
+    }
+
+    .comment-form {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 32px;
+    }
+
+    .comment-input {
+        flex: 1;
+        padding: 16px 20px;
+        border: 2px solid #cbd5e1;
+        border-radius: 24px;
+        outline: none;
+        font-size: 1.05rem;
+        transition: 0.2s;
+    }
+
+        .comment-input:focus {
+            border-color: #2563eb;
+        }
+
+    .comment-btn {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 0 28px;
+        border-radius: 24px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        cursor: pointer;
+    }
+
+    .comment-item {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .comment-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #e2e8f0;
+        color: #475569;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .comment-bubble {
+        background: #f8fafc;
+        padding: 16px 20px;
+        border-radius: 4px 16px 16px 16px;
+        flex: 1;
+    }
+
+    .comment-user {
+        font-weight: 800;
+        color: #0f172a;
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+    }
+
+    .comment-time {
+        font-weight: 500;
+        color: #94a3b8;
+        font-size: 0.9rem;
+        margin-left: 12px;
+    }
+
+    .comment-text {
+        color: #1e293b;
+        font-size: 1.05rem;
+        line-height: 1.6;
+    }
+
+    .comment-official .comment-avatar {
+        background: #2563eb;
+        color: white;
+    }
+
+    .comment-official .comment-bubble {
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+    }
+
+    .official-badge {
+        font-size: 0.8rem;
+        background: #2563eb;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 6px;
+        margin-left: 8px;
+    }
+
+    .lightbox {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.95);
+        align-items: center;
+        justify-content: center;
+        cursor: zoom-out;
+    }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+    @@media (max-width: 900px) {
+        .content-grid
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar-card {
+        position: static;
+    }
+
+    .action-group {
+        display: none;
+    }
+
+    }
+</style>
+
+<div class="container page-wrapper">
+    <div class="top-nav">
+        <a href="/" class="btn-back">← Trở về</a>
+
+        <div class="action-group">
+            @if (Model.CurrentUserId == Model.ReporterId && Model.Status == "PENDING")
+            {
+                <a href="/Report/Edit/@Model.Id" class="btn-action btn-edit">✏️ Sửa</a>
+
+                <form action="/Report/Delete" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn thu hồi báo cáo này không?');">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn-action btn-delete">🗑️ Thu hồi</button>
+                </form>
+            }
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="main-column">
+            <div class="main-card">
+                <h1 class="report-title">@Model.Title</h1>
+
+                <div class="report-meta">
+                    <div><span style="font-size: 1.2rem;">📍</span> <span style="font-weight: 600;">Địa chỉ:</span> <span id="mainAddress">@Model.Address</span>, @Model.WardName</div>
+                    <div><span style="font-size: 1.2rem;">👤</span> <span style="font-weight: 600;">Người gửi:</span> @Model.ReporterName</div>
+                    <div><span style="font-size: 1.2rem;">🕒</span> <span style="font-weight: 600;">Thời gian:</span> @Model.CreatedAt?.ToString("HH:mm - dd/MM/yyyy")</div>
+                </div>
+
+                <div class="meta-tags">
+                    @if (Model.Status == "RESOLVED")
+                    {
+                        <span class="tag tag-status-resolved">✔️ Đã hoàn thành</span>
+                    }
+                    else if (Model.Status == "IN_PROGRESS")
+                    {
+                        <span class="tag tag-status-progress">⏳ Đang xử lý</span>
+                    }
+                    else if (Model.Status == "REJECTED")
+                    {
+                        <span class="tag tag-status-rejected">⚫ Đã từ chối</span>
+                    }
+                    else
+                    {
+                        <span class="tag tag-status-pending">📝 Chờ duyệt</span>
+                    }
+
+                    @if (Model.Severity == 1)
+                    {
+                        <span class="tag tag-severity-1">Bình thường</span>
+                    }
+                    else if (Model.Severity == 2)
+                    {
+                        <span class="tag tag-severity-2">Nghiêm trọng</span>
+                    }
+                    else if (Model.Severity == 3)
+                    {
+                        <span class="tag tag-severity-3">Khẩn cấp</span>
+                    }
+
+                    <span class="tag tag-info">📁 @Model.CategoryName</span>
+                </div>
+
+                <div class="report-desc">
+                    <span style="font-weight: 700;">Mô tả chi tiết:</span><br />
+                    @Model.Description
+                </div>
+
+                @if (Model.Images != null && Model.Images.Count > 0)
+                {
+                    <div class="img-gallery">
+                        @foreach (var img in Model.Images)
+                        {
+                            <img src="@img" alt="Ảnh hiện trường" onclick="openLightbox(this.src)">
+                        }
+                    </div>
+                }
+
+                <div class="interaction-box">
+                    <button class="btn-interact btn-like" onclick="likeReport(@Model.Id)">
+                        ❤️ Ủng hộ (<span id="likeCount">@Model.LikesCount</span>)
+                    </button>
+                    <button class="btn-interact btn-share" onclick="copyLink()">
+                        🔗 Chia sẻ link
+                    </button>
+                </div>
+            </div>
+
+            <div class="main-card comments-wrapper">
+                <h3 class="comment-heading">Trao đổi & Phản hồi (@Model.Comments.Count)</h3>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form class="comment-form" asp-action="AddComment" asp-controller="Home" method="post">
+                        <input type="hidden" name="reportId" value="@Model.Id" />
+                        <input type="text" name="content" class="comment-input" placeholder="Nhập bình luận của bạn..." required autocomplete="off" />
+                        <button type="submit" class="comment-btn">Gửi</button>
+                    </form>
+                }
+                else
+                {
+                    <div style="background: #f1f5f9; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 32px;">
+                        Vui lòng <a href="/Account/Login" style="color: #2563eb; font-weight: bold; text-decoration: none;">Đăng nhập</a> để tham gia bình luận về sự cố này.
+                    </div>
+                }
+
+                <div>
+                    @if (Model.Comments == null || Model.Comments.Count == 0)
+                    {
+                        <div style="text-align: center; color: #94a3b8; font-weight: 500; padding: 20px 0;">
+                            Chưa có trao đổi nào.
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var c in Model.Comments.OrderBy(x => x.CreatedAt))
+                        {
+                            bool isOfficial = c.Content.Contains("[IMG]") || c.Content.Contains("LÝ DO TỪ CHỐI BÁO CÁO:");
+
+                            <div class="comment-item @(isOfficial ? "comment-official" : "")">
+                                <div class="comment-avatar">@(isOfficial ? "CQ" : c.UserName.Substring(0, 1).ToUpper())</div>
+                                <div class="comment-bubble">
+                                    <div class="comment-user">
+                                        @(isOfficial ? "Cơ quan chức năng" : c.UserName)
+                                        @if (isOfficial)
+                                        {
+                                            <span class="official-badge">✔ Official</span>
+                                        }
+                                        <span class="comment-time">@c.CreatedAt?.ToString("HH:mm - dd/MM")</span>
+                                    </div>
+                                    <div class="comment-text">
+                                        @if (c.Content.Contains("[IMG]") && c.Content.Contains("[/IMG]"))
+                                        {
+                                            int start = c.Content.IndexOf("[IMG]") + 5;
+                                            int end = c.Content.IndexOf("[/IMG]");
+                                            string imgUrl = c.Content.Substring(start, end - start);
+                                            string textBefore = c.Content.Substring(0, c.Content.IndexOf("[IMG]"));
+
+                                            <span>@textBefore</span>
+                                            <div style="margin-top: 16px;">
+                                                <img src="@imgUrl" style="max-width: 100%; max-height: 300px; border-radius: 12px; border: 3px solid #10b981; cursor: zoom-in; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);" onclick="openLightbox(this.src)" alt="Minh chứng xử lý" />
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            @c.Content
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-column">
+            <div class="sidebar-card">
+                <div id="miniMap" class="minimap-container"></div>
+                <div class="location-info">
+                    <div class="loc-address">
+                        <span style="font-size: 1.4rem;">📍</span>
+                        <span id="sidebarAddress">@Model.Address</span>
+                    </div>
+                    <div class="loc-ward">@Model.WardName, TP Vinh</div>
+
+                    <a href="@googleMapsUrl" target="_blank" class="btn-route">🗺️ Xem đường đi qua Google Maps</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="lightbox" class="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="">
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    function openLightbox(src) {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').style.display = 'flex';
+    }
+
+    function copyLink() {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Đã sao chép đường dẫn thành công!');
+    }
+    function likeReport(id) {
+        var isAuthenticated = '@User.Identity.IsAuthenticated.ToString().ToLower()' === 'true';
+
+        if (!isAuthenticated) {
+            if (confirm('Bạn cần đăng nhập để ủng hộ báo cáo này. Chuyển đến trang đăng nhập?')) {
+                window.location.href = '/Account/Login?ReturnUrl=' + encodeURIComponent(window.location.pathname);
+            }
+            return;
+        }
+
+        fetch('/Home/LikeReport', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'id=' + id
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('likeCount').innerText = data.likes;
+                document.querySelector('.btn-like').style.background = '#fef2f2';
+                document.querySelector('.btn-like').style.borderColor = '#ef4444';
+            } else {
+                alert(data.message);
+            }
+        });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        var lat = parseFloat('@latStr');
+        var lng = parseFloat('@lngStr');
+        var currentAddr = '@Model.Address';
+
+        if (lat !== 0 && lng !== 0) {
+            var map = L.map('miniMap', {
+                zoomControl: false,
+                dragging: false,
+                scrollWheelZoom: false
+            }).setView([lat, lng], 16);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            L.marker([lat, lng]).addTo(map);
+
+            if (currentAddr.includes('GPS')) {
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data.address) {
+                            var road = data.address.road || data.address.pedestrian || data.address.suburb || "Khu vực @Model.WardName";
+                            document.getElementById('mainAddress').innerText = road;
+                            document.getElementById('sidebarAddress').innerText = road;
+                        }
+                    });
+            }
+        } else {
+            var query = encodeURIComponent('@Model.Address, @Model.WardName, Thành phố Vinh, Nghệ An');
+            fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + query)
+                .then(res => res.json())
+                .then(data => {
+                    var finalLat = 18.6733;
+                    var finalLng = 105.6813;
+
+                    if (data && data.length > 0) {
+                        finalLat = parseFloat(data[0].lat);
+                        finalLng = parseFloat(data[0].lon);
+                    }
+
+                    var map = L.map('miniMap', {
+                        zoomControl: false,
+                        dragging: false,
+                        scrollWheelZoom: false
+                    }).setView([finalLat, finalLng], 15);
+
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                    L.marker([finalLat, finalLng]).addTo(map);
+                });
+        }
+    });
+</script>

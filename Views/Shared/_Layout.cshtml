@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Citizen - Đô thị thông minh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/base.css">
+    <link rel="stylesheet" href="~/assets/home.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container nav-wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+            <div class="logo" style="white-space: nowrap; flex-shrink: 0;">SmartCitizen</div>
+
+            <nav class="nav-links" style="display: flex; gap: 20px; white-space: nowrap;">
+                <a href="/" style="color: var(--primary); font-weight: 700;">Trang chủ</a>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="/Home/MyReports" style="color: #2563eb; font-weight: 700;">Báo cáo của tôi</a>
+                }
+
+                <a href="/Home/Map">Bản đồ số</a>
+                <a href="/News">Tin tức</a>
+                <a href="/Fund" style="color: #10b981; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+                    <span style="font-size: 1.1rem;">❤️</span> Quyên góp
+                </a>
+            </nav>
+
+            <div style="display: flex; gap: 12px; align-items: center; white-space: nowrap; flex-shrink: 0;">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (User.IsInRole("1"))
+                    {
+                        <a href="/Admin" class="btn btn-outline" style="text-decoration: none; border-color: #f59e0b; color: #d97706; background: #fffbeb; white-space: nowrap;">⚙️ Quản trị</a>
+                    }
+
+                    <span style="font-weight: 600; color: #0f172a; margin: 0 4px; display: inline-block; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;">
+                        👋 Chào, @User.Identity.Name
+                    </span>
+
+                    <a href="/Account/Logout" class="btn btn-outline" style="text-decoration: none; white-space: nowrap;">Đăng xuất</a>
+                }
+                else
+                {
+                    <a href="/Account/Login" class="btn btn-outline" style="text-decoration: none; white-space: nowrap;">Đăng nhập</a>
+                }
+
+                <a href="/Report/Create" class="btn btn-primary" style="text-decoration: none; white-space: nowrap;">Gửi phản ánh</a>
+            </div>
+        </div>
+    </header>
+
+    @RenderBody()
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">SmartCitizen</div>
+                    <p>Nền tảng tiếp nhận và xử lý phản ánh đô thị thông minh. Chung tay xây dựng môi trường sống xanh, sạch, đẹp và an toàn.</p>
+                    <div class="social-links">
+                        <a href="#">FB</a>
+                        <a href="#">YT</a>
+                        <a href="#">ZL</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Về hệ thống</h4>
+                    <div class="footer-links">
+                        <a href="#">Giới thiệu chung</a>
+                        <a href="#">Hướng dẫn sử dụng</a>
+                        <a href="#">Quy chế hoạt động</a>
+                        <a href="#">Câu hỏi thường gặp</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Tính năng</h4>
+                    <div class="footer-links">
+                        <a href="form.html">Gửi phản ánh</a>
+                        <a href="#">Bản đồ trực tuyến</a>
+                        <a href="#">Thống kê dữ liệu</a>
+                        <a href="#">Bảng xếp hạng</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Cơ quan tiếp nhận</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <span>📍</span>
+                            <div>UBND Thành phố Vinh<br>Nghệ An, Việt Nam</div>
+                        </li>
+                        <li>
+                            <span>📞</span>
+                            <div>Hotline: 1900 1234<br>(Hỗ trợ 24/7)</div>
+                        </li>
+                        <li>
+                            <span>📧</span>
+                            <div>Email: hotro@smartcitizen.vinh.vn</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>&copy; 2026 Smart Citizen. Phát triển bởi đội ngũ dự án.</div>
+                <div class="footer-legal">
+                    <a href="#">Điều khoản bảo mật</a>
+                    <a href="#">Chính sách dữ liệu</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/assets/main.js"></script>
+</body>
+
+</html>

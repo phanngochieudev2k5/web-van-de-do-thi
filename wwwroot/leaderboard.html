@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cộng đồng & Đổi thưởng - Smart Citizen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="base.css">
+    <style>
+        body {
+            background-color: #f1f5f9;
+        }
+        
+        .header {
+            background: white;
+            padding: 16px 0;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0ea5e9, #6366f1);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .gami-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 32px;
+            padding: 40px 24px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .user-profile {
+            background: white;
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 100px;
+        }
+
+        .avatar-wrap {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fef08a, #f59e0b);
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 6px solid #fffbeb;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);
+            position: relative;
+        }
+
+        .level-badge {
+            position: absolute;
+            bottom: -5px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 2px solid white;
+        }
+
+        .user-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .user-rank {
+            color: #0ea5e9;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .points-box {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .points-val {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #f59e0b;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .badges-title {
+            text-align: left;
+            font-weight: 700;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            background: #f1f5f9;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .badge-icon.active {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .badge-icon.active.gold { background: linear-gradient(135deg, #fbbf24, #d97706); box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3); }
+        .badge-icon.active.green { background: linear-gradient(135deg, #34d399, #059669); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
+
+        .badge-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            line-height: 1.2;
+        }
+
+        .badge-item.active .badge-name { color: #0f172a; }
+
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .panel-section {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .reward-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reward-card:hover {
+            border-color: #0ea5e9;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.1);
+        }
+
+        .reward-img {
+            height: 140px;
+            border-radius: 12px;
+            background: #f1f5f9;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .reward-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .reward-cost {
+            color: #f59e0b;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-redeem {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: #0ea5e9;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: auto;
+        }
+
+        .btn-redeem:hover { background: #0284c7; }
+        .btn-redeem.disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .lb-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 24px;
+            border-radius: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+
+        .lb-item:hover { transform: translateX(8px); background: white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+
+        .lb-rank {
+            width: 40px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #64748b;
+        }
+
+        .lb-item.top-1 { background: linear-gradient(to right, #fffbeb, white); border-color: #fde68a; }
+        .lb-item.top-1 .lb-rank { color: #f59e0b; font-size: 1.5rem; }
+        .lb-item.top-2 { background: linear-gradient(to right, #f1f5f9, white); border-color: #cbd5e1; }
+        .lb-item.top-2 .lb-rank { color: #94a3b8; font-size: 1.5rem; }
+        .lb-item.top-3 { background: linear-gradient(to right, #fff7ed, white); border-color: #fed7aa; }
+        .lb-item.top-3 .lb-rank { color: #ea580c; font-size: 1.5rem; }
+
+        .lb-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .lb-avatar { width: 48px; height: 48px; border-radius: 50%; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .lb-info h4 { font-weight: 700; margin-bottom: 4px; }
+        .lb-info p { font-size: 0.85rem; color: #64748b; }
+        .lb-points { font-weight: 800; color: #0ea5e9; font-size: 1.25rem; }
+
+        @media (max-width: 900px) {
+            .gami-layout { grid-template-columns: 1fr; }
+            .user-profile { position: static; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container nav-wrap" style="max-width: 1280px; margin: 0 auto; padding: 0 24px;">
+            <div class="logo">SmartCitizen</div>
+            <nav style="display: flex; gap: 32px; font-weight: 500;">
+                <a href="index.html" style="color: #64748b; text-decoration: none;">Trang chủ</a>
+                <a href="#" style="color: #0ea5e9; font-weight: 700; text-decoration: none;">Cộng đồng & Đổi thưởng</a>
+            </nav>
+            <a href="form.html" style="padding: 10px 24px; background: #0ea5e9; color: white; border-radius: 50px; text-decoration: none; font-weight: 600;">Gửi phản ánh</a>
+        </div>
+    </header>
+
+    <div class="gami-layout">
+        <aside>
+            <div class="user-profile">
+                <div class="avatar-wrap">
+                    👨‍💻
+                    <div class="level-badge">Lv. 12</div>
+                </div>
+                <h2 class="user-name">Thạch Phan Bảo</h2>
+                <div class="user-rank">🎖️ Đại sứ đô thị</div>
+                
+                <div class="points-box">
+                    <div class="points-val">2,450</div>
+                    <div style="color: #64748b; font-weight: 500; font-size: 0.9rem;">Điểm uy tín hiện có</div>
+                </div>
+
+                <h3 class="badges-title">Bộ sưu tập huy hiệu</h3>
+                <div class="badges-grid">
+                    <div class="badge-item active">
+                        <div class="badge-icon active gold">👁️</div>
+                        <div class="badge-name">Mắt thần<br>giao thông</div>
+                    </div>
+                    <div class="badge-item active">
+                        <div class="badge-icon active green">🌳</div>
+                        <div class="badge-name">Hiệp sĩ<br>môi trường</div>
+                    </div>
+                    <div class="badge-item active">
+                        <div class="badge-icon active">💡</div>
+                        <div class="badge-name">Chuyên gia<br>hạ tầng</div>
+                    </div>
+                    <div class="badge-item">
+                        <div class="badge-icon">🔥</div>
+                        <div class="badge-name">Trùm<br>báo cáo</div>
+                    </div>
+                    <div class="badge-item">
+                        <div class="badge-icon">⚡</div>
+                        <div class="badge-name">Phản ứng<br>nhanh</div>
+                    </div>
+                    <div class="badge-item">
+                        <div class="badge-icon">🤝</div>
+                        <div class="badge-name">Người dẫn<br>đầu</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+            <section class="panel-section">
+                <div class="section-header">
+                    <h2>🏆 Bảng vàng vinh danh</h2>
+                    <select style="padding: 8px 16px; border-radius: 8px; border: 1px solid #e2e8f0; outline: none;">
+                        <option>Tháng này</option>
+                        <option>Tuần này</option>
+                        <option>Tất cả</option>
+                    </select>
+                </div>
+                <div class="leaderboard-list">
+                    <div class="lb-item top-1">
+                        <div class="lb-rank">#1</div>
+                        <div class="lb-user">
+                            <div class="lb-avatar" style="background: #fef08a;">👑</div>
+                            <div class="lb-info">
+                                <h4>Nguyễn Văn A</h4>
+                                <p>Đã giúp giải quyết 142 sự cố</p>
+                            </div>
+                        </div>
+                        <div class="lb-points">14,200 đ</div>
+                    </div>
+                    <div class="lb-item top-2">
+                        <div class="lb-rank">#2</div>
+                        <div class="lb-user">
+                            <div class="lb-avatar" style="background: #e2e8f0;">🥈</div>
+                            <div class="lb-info">
+                                <h4>Trần Thị B</h4>
+                                <p>Đã giúp giải quyết 98 sự cố</p>
+                            </div>
+                        </div>
+                        <div class="lb-points">9,850 đ</div>
+                    </div>
+                    <div class="lb-item top-3">
+                        <div class="lb-rank">#3</div>
+                        <div class="lb-user">
+                            <div class="lb-avatar" style="background: #ffedd5;">🥉</div>
+                            <div class="lb-info">
+                                <h4>Lê Hoàng C</h4>
+                                <p>Đã giúp giải quyết 75 sự cố</p>
+                            </div>
+                        </div>
+                        <div class="lb-points">7,500 đ</div>
+                    </div>
+                    <div class="lb-item" style="border: 2px solid #0ea5e9; background: #f0f9ff;">
+                        <div class="lb-rank" style="color: #0ea5e9;">#12</div>
+                        <div class="lb-user">
+                            <div class="lb-avatar" style="background: #bae6fd;">👨‍💻</div>
+                            <div class="lb-info">
+                                <h4>Thạch Phan Bảo (Bạn)</h4>
+                                <p>Đã giúp giải quyết 24 sự cố</p>
+                            </div>
+                        </div>
+                        <div class="lb-points">2,450 đ</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel-section">
+                <div class="section-header">
+                    <h2>🎁 Cửa hàng quy đổi</h2>
+                    <div style="color: #64748b; font-size: 0.95rem;">Số dư: <strong style="color: #f59e0b;">2,450 đ</strong></div>
+                </div>
+                <div class="rewards-grid">
+                    <div class="reward-card">
+                        <div class="reward-img" style="background: #fee2e2;">☕</div>
+                        <h3 class="reward-title">Voucher Highlands Coffee Vincom Vinh</h3>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 16px; flex: 1;">Giảm trực tiếp 30.000đ cho hóa đơn bất kỳ tại cơ sở Vincom Quang Trung.</p>
+                        <div class="reward-cost">🪙 500 điểm</div>
+                        <button class="btn-redeem" onclick="redeemReward(this, 500)">Đổi quà ngay</button>
+                    </div>
+
+                    <div class="reward-card">
+                        <div class="reward-img" style="background: #dbeafe;">🚌</div>
+                        <h3 class="reward-title">Vé xe Bus miễn phí 1 tháng</h3>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 16px; flex: 1;">Áp dụng cho tất cả các tuyến Bus nội thành TP. Vinh và vùng ven.</p>
+                        <div class="reward-cost">🪙 1,500 điểm</div>
+                        <button class="btn-redeem" onclick="redeemReward(this, 1500)">Đổi quà ngay</button>
+                    </div>
+
+                    <div class="reward-card">
+                        <div class="reward-img" style="background: #d1fae5;">💧</div>
+                        <h3 class="reward-title">Giảm 50.000đ hóa đơn Tiền Nước</h3>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 16px; flex: 1;">Áp dụng thanh toán qua Cổng dịch vụ công của nhà máy nước Nghệ An.</p>
+                        <div class="reward-cost">🪙 3,000 điểm</div>
+                        <button class="btn-redeem disabled">Không đủ điểm</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        let currentPoints = 2450;
+        
+        function redeemReward(btn, cost) {
+            if (currentPoints >= cost) {
+                const confirmMsg = confirm(`Bạn có chắc chắn muốn dùng ${cost} điểm để đổi món quà này không?`);
+                if(confirmMsg) {
+                    currentPoints -= cost;
+                    alert('Đổi quà thành công! Mã Voucher đã được gửi vào Email của bạn.');
+                    
+                    document.querySelector('.points-val').innerText = currentPoints.toLocaleString();
+                    document.querySelector('.section-header strong').innerText = currentPoints.toLocaleString() + ' đ';
+                    
+                    const buttons = document.querySelectorAll('.btn-redeem');
+                    buttons.forEach(b => {
+                        const costText = b.previousElementSibling.innerText.replace(/\D/g, '');
+                        if(parseInt(costText) > currentPoints) {
+                            b.classList.add('disabled');
+                            b.innerText = 'Không đủ điểm';
+                            b.onclick = null;
+                        }
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>

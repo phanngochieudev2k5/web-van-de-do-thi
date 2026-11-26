@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Thanh toán VNPAY (Demo)";
+}
+
+<div class="container text-center py-5" style="margin-top: 50px; font-family: 'Segoe UI', sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px dashed #3b82f6;">
+        <h2 style="color: #0f172a; font-weight: 700; margin-bottom: 20px;">Trang giả lập cổng thanh toán VNPAY</h2>
+        <p style="font-size: 1.1rem; color: #475569;">Bạn đang thanh toán số tiền: <strong style="color: #10b981; font-size: 1.5rem;">@String.Format("{0:N0}", ViewBag.Amount) VNĐ</strong></p>
+
+        <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px;">
+            <a href="/Fund/PaymentCallback?txnId=@ViewBag.TxnId&responseCode=00"
+               style="background: #10b981; color: white; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem;">
+                ✅ Giả lập Khách Thanh toán THÀNH CÔNG (Code 00)
+            </a>
+
+            <a href="/Fund/PaymentCallback?txnId=@ViewBag.TxnId&responseCode=24"
+               style="background: #ef4444; color: white; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem;">
+                ❌ Giả lập Khách HỦY giao dịch (Code 24)
+            </a>
+        </div>
+    </div>
+</div>

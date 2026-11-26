@@ -1,0 +1,185 @@
+﻿@model WebDoThi.Models.HomeViewModel
+
+<style>
+    .card-hidden {
+        display: none !important;
+    }
+
+    .load-more-container {
+        text-align: center;
+        margin-top: 40px;
+        width: 100%;
+    }
+
+    .btn-load-more {
+        padding: 14px 40px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        background: white;
+        border: 2px solid #3b82f6;
+        color: #3b82f6;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-load-more:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+        }
+
+    .report-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    @@media (max-width: 1024px) {
+        .report-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .report-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<main>
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Chung tay xây dựng<br>Thành phố Thông minh</h1>
+            <p>
+                Nền tảng trực tuyến giúp bạn dễ dàng báo cáo các vấn đề đô thị. Mọi phản ánh đều được minh bạch và
+                theo dõi tiến độ xử lý theo thời gian thực.
+            </p>
+            <div style="display: flex; gap: 16px; justify-content: center;">
+                <a href="/Report/Create" class="btn btn-primary" id="btnOpenReport" style="font-size: 1.15rem; padding: 16px 36px;">
+                    📸 Báo cáo ngay
+                </a>
+                <a href="/Home/Map" class="btn btn-outline" style="font-size: 1.15rem; padding: 16px 36px; background: white;">
+                    📍 Xem bản đồ
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-container container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-num">@Model.TotalReports</div>
+                <div class="stat-label">Tổng phản ánh</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" style="color: var(--success);">@Model.ResolvedReports</div>
+                <div class="stat-label">Đã giải quyết</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" style="color: var(--warning);">@Model.ProcessingReports</div>
+                <div class="stat-label">Đang xử lý</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" style="color: var(--secondary);">@Model.ActiveCitizens</div>
+                <div class="stat-label">Công dân tích cực</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="categories container">
+        <h2 class="section-title">Vấn đề bạn quan tâm?</h2>
+        <p class="section-subtitle">Lọc các phản ánh theo danh mục để dễ dàng theo dõi</p>
+
+        <div class="cat-list">
+            <a href="/" class="cat-item @(ViewBag.ActiveCategoryId == null ? "active" : "")" style="text-decoration: none;">🔥 Nổi bật nhất</a>
+            @foreach (var cat in Model.Categories)
+            {
+                <a href="/?categoryId=@cat.Id" class="cat-item @(ViewBag.ActiveCategoryId == cat.Id ? "active" : "")" style="text-decoration: none;">@cat.Name</a>
+            }
+        </div>
+    </section>
+
+    <section class="reports container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="section-title">Phản ánh mới nhất</h2>
+        </div>
+
+        <div class="report-grid">
+            @{
+                int cardIndex = 0;
+            }
+            @foreach (var item in Model.RecentReports)
+            {
+                <article class="card @(cardIndex >= 6 ? "card-hidden" : "")">
+                    <img src="@item.ImageUrl" alt="@item.Title" class="card-img">
+                    <div class="card-body">
+                        <div class="card-header">
+                            @if (item.Status == "RESOLVED")
+                            {
+                                <span class="badge bg-success">Đã hoàn thành</span>
+                            }
+                            else if (item.Status == "IN_PROGRESS")
+                            {
+                                <span class="badge bg-warning">Đang xử lý</span>
+                            }
+                            else if (item.Status == "REJECTED")
+                            {
+                                <span class="badge bg-secondary" style="background-color: #6c757d;">Bị từ chối</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Chờ duyệt</span>
+                            }
+                            <span style="color: var(--gray); font-size: 0.9rem;">@item.TimeAgo</span>
+                        </div>
+                        <h3 class="card-title">@item.Title</h3>
+                        <div class="card-loc">📍 @item.Address</div>
+                        <div class="card-footer">
+                            <div class="interaction">
+                                <button class="btn-icon">❤️ <span>@item.LikesCount</span></button>
+                                <button class="btn-icon">💬 <span>@item.CommentsCount</span></button>
+                            </div>
+                            <a href="/Home/Details/@item.Id" class="read-more">Chi tiết</a>
+                        </div>
+                    </div>
+                </article>
+                cardIndex++;
+            }
+        </div>
+
+        @if (Model.RecentReports.Count > 6)
+        {
+            <div class="load-more-container">
+                <button id="btnLoadMore" class="btn-load-more">⬇️ Xem thêm báo cáo</button>
+            </div>
+        }
+    </section>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var btnLoadMore = document.getElementById('btnLoadMore');
+
+        if (btnLoadMore) {
+            btnLoadMore.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                var hiddenCards = document.querySelectorAll('.card-hidden');
+
+                for (var i = 0; i < 6 && i < hiddenCards.length; i++) {
+                    hiddenCards[i].classList.remove('card-hidden');
+                }
+
+                if (document.querySelectorAll('.card-hidden').length === 0) {
+                    btnLoadMore.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>

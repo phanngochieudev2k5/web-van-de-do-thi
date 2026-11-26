@@ -1,0 +1,152 @@
+﻿@model WebDoThi.Models.TblReport
+@{
+    ViewData["Title"] = "Sửa nội dung phản ánh";
+    var categories = ViewBag.Categories as IEnumerable<dynamic>;
+}
+
+<style>
+    body {
+        background: #f8fafc;
+    }
+
+    .page-wrapper {
+        padding: 40px 16px;
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .form-card {
+        background: white;
+        padding: 32px;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+
+    .form-title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 32px;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 16px;
+        border: 2px solid #cbd5e1;
+        border-radius: 12px;
+        font-size: 1.05rem;
+        outline: none;
+        transition: 0.2s;
+        background: #f8fafc;
+    }
+
+        .form-control:focus {
+            border-color: #3b82f6;
+            background: white;
+        }
+
+    .btn-submit {
+        width: 100%;
+        padding: 16px;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 800;
+        font-size: 1.15rem;
+        cursor: pointer;
+        transition: 0.2s;
+        margin-top: 16px;
+    }
+
+        .btn-submit:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(37,99,235,0.2);
+        }
+
+    .btn-cancel {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #64748b;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 1.05rem;
+        transition: 0.2s;
+    }
+
+        .btn-cancel:hover {
+            color: #0f172a;
+        }
+</style>
+
+<div class="container page-wrapper">
+    <div class="form-card">
+        <h2 class="form-title">✏️ Chỉnh sửa phản ánh</h2>
+
+        <form action="/Report/Edit/@Model.Id" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="form-group">
+                <label>Tiêu đề sự cố</label>
+                <input type="text" name="Title" class="form-control" value="@Model.Title" required autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label>Địa chỉ sự cố (Bổ sung thêm số nhà, ngõ ngách nếu cần)</label>
+                <input type="text" name="Address" class="form-control" value="@Model.Address" required autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label>Số điện thoại liên hệ (Bảo mật)</label>
+                <input type="tel" name="PhoneNumber" class="form-control" value="@Model.PhoneNumber" pattern="[0-9]{10,11}" required autocomplete="off" placeholder="Ví dụ: 0912345678" />
+                <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px;">* Cơ quan chức năng sẽ dùng số này để liên lạc xác minh khi cần thiết.</div>
+            </div>
+
+            <div class="form-group">
+                <label>Lĩnh vực / Danh mục</label>
+                <select name="CategoryId" class="form-control" required>
+                    @if (categories != null)
+                    {
+                        foreach (var cat in categories)
+                        {
+                            <option value="@cat.Id" selected="@(Model.CategoryId == cat.Id)">@cat.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Mức độ nghiêm trọng</label>
+                <select name="Severity" class="form-control" required>
+                    <option value="1" selected="@(Model.Severity == 1)">Bình thường</option>
+                    <option value="2" selected="@(Model.Severity == 2)">Nghiêm trọng (Cần xử lý sớm)</option>
+                    <option value="3" selected="@(Model.Severity == 3)">Khẩn cấp (Nguy hiểm đến tính mạng/tài sản)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Mô tả chi tiết nội dung</label>
+                <textarea name="Description" class="form-control" rows="6" required>@Model.Description</textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Lưu cập nhật</button>
+            <a href="/Home/Details/@Model.Id" class="btn-cancel">Quay lại chi tiết</a>
+        </form>
+    </div>
+</div>

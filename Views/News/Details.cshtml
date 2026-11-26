@@ -1,0 +1,253 @@
+﻿@model WebDoThi.Models.TblNews
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<style>
+    body {
+        background-color: #f0f2f5;
+    }
+
+    .detail-container {
+        max-width: 800px;
+        margin: 32px auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .post-header {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid #f0f2f5;
+    }
+
+    .post-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        font-weight: bold;
+    }
+
+    .post-author-name {
+        font-weight: 700;
+        color: #050505;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .post-time {
+        font-size: 0.9rem;
+        color: #65676b;
+        margin-top: 4px;
+    }
+
+    .official-badge {
+        font-size: 0.8rem;
+        background: #2563eb;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+    }
+
+    .post-body {
+        padding: 24px;
+        color: #050505;
+        font-size: 1.15rem;
+        line-height: 1.6;
+    }
+
+    .post-image {
+        width: 100%;
+        max-height: 600px;
+        object-fit: contain;
+        background: #000;
+    }
+
+    .comments-wrapper {
+        padding: 20px;
+        background: #f9fafb;
+    }
+
+    .comment-box {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .comment-input-area {
+        flex: 1;
+        display: flex;
+        background: white;
+        border: 1px solid #ced0d4;
+        border-radius: 24px;
+        padding: 4px;
+    }
+
+        .comment-input-area input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 1rem;
+        }
+
+        .comment-input-area button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+    .comment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .comment-item {
+        display: flex;
+        gap: 12px;
+    }
+
+    .comment-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #475569;
+        flex-shrink: 0;
+    }
+
+    .comment-content {
+        background: #f0f2f5;
+        padding: 10px 16px;
+        border-radius: 18px;
+        display: inline-block;
+        max-width: 85%;
+    }
+
+    .comment-author {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: #050505;
+        margin-bottom: 4px;
+    }
+
+    .comment-text {
+        font-size: 0.95rem;
+        color: #050505;
+        line-height: 1.4;
+        word-wrap: break-word;
+    }
+
+    .comment-meta {
+        font-size: 0.8rem;
+        color: #65676b;
+        margin-left: 56px;
+        margin-top: 4px;
+        display: flex;
+        gap: 12px;
+    }
+</style>
+
+<div class="container">
+    <div style="max-width: 800px; margin: 20px auto 0 auto;">
+        <a href="/News" style="text-decoration: none; color: #475569; font-weight: 600; font-size: 1.1rem;">← Quay lại Bảng tin</a>
+    </div>
+
+    <div class="detail-container">
+        <div class="post-header">
+            <div class="post-avatar">CQ</div>
+            <div>
+                <div class="post-author-name">
+                    Cơ quan Quản lý Đô thị
+                    <span class="official-badge">✔ Official</span>
+                </div>
+                <div class="post-time">@Model.CreatedAt?.ToString("HH:mm - dd/MM/yyyy") • 🌍 Công khai</div>
+            </div>
+        </div>
+
+        <div class="post-body">
+            <h1 style="margin-top: 0; font-size: 1.6rem; margin-bottom: 16px;">@Model.Title</h1>
+            @Html.Raw(Model.Content)
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" class="post-image" alt="Hình ảnh đính kèm">
+        }
+
+        <div style="padding: 16px 24px; display: flex; gap: 20px; border-bottom: 1px solid #ced0d4;">
+            <span style="font-weight: 600; color: #65676b;">❤️ @Model.LikesCount Thích</span>
+            <span style="font-weight: 600; color: #65676b;">💬 @Model.CommentsCount Bình luận</span>
+        </div>
+
+        <div class="comments-wrapper">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="comment-box">
+                    <div class="comment-avatar" style="width: 40px; height: 40px; background: #e2e8f0;">@User.Identity.Name.Substring(0, 1).ToUpper()</div>
+
+                    <form class="comment-input-area" action="/News/AddComment" method="post">
+                        <input type="hidden" name="newsId" value="@Model.Id" />
+                        <input type="text" name="content" placeholder="Viết bình luận công khai dưới tên @User.Identity.Name..." required autofocus autocomplete="off">
+                        <button type="submit">Gửi</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div style="background: #e2e8f0; padding: 16px; border-radius: 12px; text-align: center; margin-bottom: 24px;">
+                    Vui lòng <a href="/Account/Login" style="color: #2563eb; font-weight: bold; text-decoration: none;">Đăng nhập</a> để tham gia bình luận.
+                </div>
+            }
+
+            <div class="comment-list">
+                @if (Model.TblNewsComments != null && Model.TblNewsComments.Any())
+                {
+                    @foreach (var c in Model.TblNewsComments.OrderByDescending(x => x.CreatedAt))
+                    {
+                        <div class="comment-item">
+                            <div class="comment-avatar">@c.UserName.Substring(0, 1).ToUpper()</div>
+                            <div>
+                                <div class="comment-content">
+                                    <div class="comment-author">@c.UserName</div>
+                                    <div class="comment-text">@c.Content</div>
+                                </div>
+                                <div class="comment-meta">
+                                    <span>@c.CreatedAt?.ToString("HH:mm - dd/MM/yyyy")</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div style="text-align: center; color: #65676b; padding: 20px;">
+                        Chưa có bình luận nào. Hãy là người đầu tiên lên tiếng!
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
